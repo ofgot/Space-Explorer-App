@@ -1,7 +1,6 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,8 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
@@ -45,16 +40,14 @@ fun LaunchesScreen() {
 
 @Composable
 fun LaunchContent(modifier: Modifier = Modifier) {
-    val scrollableColumnState = rememberScrollState()
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    LazyColumn (
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(scrollableColumnState),
     ) {
-        LaunchItem(modifier = Modifier.padding(top = 16.dp))
+        items(3){
+            LaunchItem(modifier = Modifier.padding(top = 16.dp))
+        }
     }
 }
 
@@ -71,7 +64,6 @@ fun LaunchItem(modifier: Modifier = Modifier) {
                 .align(Alignment.CenterVertically),
         )
         Column(
-            modifier = Modifier.weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SingleLineText.SingleLineText(
@@ -91,8 +83,8 @@ fun LaunchItem(modifier: Modifier = Modifier) {
             )
             CountdownTimer()
             SingleLineText.SingleLineText(
-                "Day   Hours   Min   Secs", MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 16.dp)
+                "Day Hours Min Secs", MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(start = 20.dp)
             )
             SingleLineText.SingleLineText(
                 "March 01, 2025 - NET 11:00 CET",
