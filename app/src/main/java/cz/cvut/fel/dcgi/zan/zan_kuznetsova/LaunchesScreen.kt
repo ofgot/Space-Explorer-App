@@ -40,12 +40,12 @@ fun LaunchesScreen() {
 
 @Composable
 fun LaunchContent(modifier: Modifier = Modifier) {
-    LazyColumn (
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        items(3){
+        items(4) {
             LaunchItem(modifier = Modifier.padding(top = 16.dp))
         }
     }
@@ -161,7 +161,6 @@ fun LaunchesAppBar() {
         }
     )
 }
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

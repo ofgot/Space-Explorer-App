@@ -167,7 +167,6 @@ fun DetailsTextField(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsAppBar() {
