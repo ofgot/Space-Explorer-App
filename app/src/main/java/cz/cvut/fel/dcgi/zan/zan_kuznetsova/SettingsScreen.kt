@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.NavigationItems.navItems
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
 
 @Composable
 fun SettingsScreen() {
     Scaffold(
         topBar = { SettingsAppBar() },
+        bottomBar = { SettingsBottomNavigation() },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         SettingsContent(
@@ -32,7 +34,7 @@ fun SettingsContent(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-
+        // {ToDO}
     }
 }
 
@@ -43,6 +45,15 @@ fun SettingsAppBar() {
         title = {
             Text(text = "Settings")
         },
+    )
+}
+
+@Composable
+fun SettingsBottomNavigation() {
+    BottomNavigation.BottomNavigation(
+        items = navItems,
+        selectedItemIndex = 2,
+        onItemSelected = { index ->  }
     )
 }
 

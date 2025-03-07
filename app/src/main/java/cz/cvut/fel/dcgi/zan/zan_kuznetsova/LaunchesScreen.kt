@@ -24,18 +24,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.NavigationItems.navItems
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
 
 @Composable
 fun LaunchesScreen() {
     Scaffold(
         topBar = { LaunchesAppBar() },
+        bottomBar = { LaunchesBottomNavigation() }, // ask if it's ok with ButtonNavItem and BottomNavigation
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         LaunchContent(
             modifier = Modifier.padding(innerPadding)
         )
     }
+}
+
+@Composable
+fun LaunchesBottomNavigation() {
+    BottomNavigation.BottomNavigation(
+        items = navItems,
+        selectedItemIndex = 0,
+        onItemSelected = { index ->  }
+    )
 }
 
 @Composable

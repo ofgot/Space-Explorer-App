@@ -187,6 +187,7 @@ fun DetailsAppBar() {
     )
 }
 
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DetailsScreenPreview() {
