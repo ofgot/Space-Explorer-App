@@ -94,10 +94,6 @@ fun LaunchItem(modifier: Modifier = Modifier) {
             )
             CountdownTimer()
             SingleLineText.SingleLineText(
-                "Day Hours Min Secs", MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 20.dp)
-            )
-            SingleLineText.SingleLineText(
                 "March 01, 2025 - NET 11:00 CET",
                 MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 16.dp)
@@ -159,6 +155,28 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
                         "${seconds.toString().padStart(2, '0')}",
                 style = MaterialTheme.typography.headlineMedium
             )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp)
+        ) {
+            SingleLineText.SingleLineText(
+                "Days", MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(start = 20.dp)
+            )
+            SingleLineText.SingleLineText(
+                "Hours", MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(start = 20.dp)
+            )
+            SingleLineText.SingleLineText(
+                "Mins", MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(start = 20.dp)
+            )
+            SingleLineText.SingleLineText(
+                "Secs", MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(start = 20.dp)
+            )
+
         }
     }
 }
