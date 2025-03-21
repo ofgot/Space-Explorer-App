@@ -1,6 +1,8 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,83 +25,104 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.NavigationItems.navItems
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils.BottomNavigation
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils.SingleLineText
+import coil3.compose.AsyncImage
+import coil3.compose.rememberAsyncImagePainter
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.formatLaunchDate
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
 
 @Composable
-fun LaunchesScreen() {
+fun LaunchesScreen(
+    mainBottomNavigationItems: List<BottomNavItem>,
+    currentDestination: String?,
+    launches: List<Launch>
+) {
     Scaffold(
         topBar = { LaunchesAppBar() },
-        bottomBar = { LaunchesBottomNavigation() },
+        bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         LaunchContent(
+            launches = launches,
             modifier = Modifier.padding(innerPadding)
         )
     }
 }
 
 @Composable
-fun LaunchesBottomNavigation() {
-    BottomNavigation(
-        items = navItems,
-        selectedItemIndex = 0,
-        onItemSelected = { index ->  }
-    )
-}
-
-@Composable
-fun LaunchContent(modifier: Modifier = Modifier) {
+fun LaunchContent(
+    launches: List<Launch>,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        items(4) {
-            LaunchItem(modifier = Modifier.padding(top = 10.dp))
+        items(launches) { launch ->
+            LaunchItem(
+                launch = launch,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
         }
     }
 }
 
 @Composable
-fun LaunchItem(modifier: Modifier = Modifier) {
+fun LaunchItem(
+    launch: Launch,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier.fillMaxWidth()
     ) {
         Image(
-            painter = painterResource(R.drawable.img),
-            contentDescription = "Rocket",
+            painter = rememberAsyncImagePainter(launch.image.url),      // ASK HERE
+            contentDescription = launch.image.name,
             modifier = Modifier
-                .height(100.dp)
-                .align(Alignment.CenterVertically),
+                .width(100.dp)
+                .height(160.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
+                .background(Color.LightGray),
+            contentScale = ContentScale.Crop
         )
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SingleLineText(
-                text = "Kuaizhou-1A | Unknown Payload",
+                text = launch.name,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
+            launch.agency?.let {
+                SingleLineText(
+                    text = it.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
             SingleLineText(
-                text = "ExPace",
+                text = launch.location,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
-            SingleLineText(
-                text = "Jiuquan Satellite Launch Center, People's Republic of China",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 16.dp)
-            )
+
             CountdownTimer()
+
             SingleLineText(
-                "March 01, 2025 - NET 11:00 CET",
+                formatLaunchDate(launch.net),
                 MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
@@ -191,12 +217,4 @@ fun LaunchesAppBar() {
             Text(text = "Launches")
         }
     )
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun UserProfileScreenPreview() {
-    ZankuznetsovaTheme {
-        LaunchesScreen()
-    }
 }

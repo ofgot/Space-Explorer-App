@@ -1,4 +1,4 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

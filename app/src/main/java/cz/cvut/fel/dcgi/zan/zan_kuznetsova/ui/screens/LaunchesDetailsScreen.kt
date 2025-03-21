@@ -1,4 +1,4 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -28,8 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils.SingleLineText
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 
 @Composable
 fun DetailsScreen() {

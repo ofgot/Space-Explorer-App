@@ -1,4 +1,4 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -9,27 +9,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.BottomNavItem
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
 
 @Composable
 fun BottomNavigation(
     items: List<BottomNavItem>,
-    selectedItemIndex: Int,
-    onItemSelected: (Int) -> Unit
+    currentRoute: String?,
 ) {
     NavigationBar {
-        items.forEachIndexed { index, item ->
+        items.forEach { item ->
             NavigationBarItem(
                 icon = {
                     Icon(
-                        painter = painterResource(item.icon),
+                        painter = painterResource(item.iconId),
                         contentDescription = item.contentDescription,
                         modifier = Modifier.size(24.dp)
                     )
                 },
                 label = { Text(item.label) },
-                selected = index == selectedItemIndex,
-                onClick = { onItemSelected(index) }
+                selected = item.route == currentRoute,
+                onClick = item.onClick
             )
         }
     }

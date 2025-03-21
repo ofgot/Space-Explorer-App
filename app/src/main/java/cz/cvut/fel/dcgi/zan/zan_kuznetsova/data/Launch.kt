@@ -5,6 +5,7 @@ data class Launch(
     val name: String,     // name
     val status: Status,   // status
     val net: String,      // net    // approximate or exact time
+    val location: String,
     val image: Image,
     val agency: Agency?,
     val rocket: Rocket,
