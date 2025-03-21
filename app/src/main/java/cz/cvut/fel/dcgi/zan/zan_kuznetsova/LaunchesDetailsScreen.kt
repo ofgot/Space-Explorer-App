@@ -29,6 +29,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils.SingleLineText
 
 @Composable
 fun DetailsScreen() {
@@ -65,7 +66,7 @@ fun DetailsItem(modifier: Modifier = Modifier) {
             .padding(vertical = 10.dp)
             .verticalScroll(scrollableColumnState)
     ) {
-        SingleLineText.SingleLineText(
+        SingleLineText(
             text = "Kuaizhou-1A | Unknown Payload",
             style = MaterialTheme.typography.titleLarge,
         )
@@ -155,12 +156,12 @@ fun DetailsTextField(
         modifier = modifier.fillMaxWidth().padding(vertical = 5.dp, horizontal = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        SingleLineText.SingleLineText(
+        SingleLineText(
             text = text1,
             style = style,
             modifier = Modifier.weight(1f)
         )
-        SingleLineText.SingleLineText(
+        SingleLineText(
             text = text2,
             style = style
         )

@@ -24,14 +24,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.NavigationItems.navItems
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.NavigationItems.navItems
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils.BottomNavigation
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils.SingleLineText
 
 @Composable
 fun LaunchesScreen() {
     Scaffold(
         topBar = { LaunchesAppBar() },
-        bottomBar = { LaunchesBottomNavigation() }, // ask if it's ok with ButtonNavItem and BottomNavigation
+        bottomBar = { LaunchesBottomNavigation() },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         LaunchContent(
@@ -42,7 +44,7 @@ fun LaunchesScreen() {
 
 @Composable
 fun LaunchesBottomNavigation() {
-    BottomNavigation.BottomNavigation(
+    BottomNavigation(
         items = navItems,
         selectedItemIndex = 0,
         onItemSelected = { index ->  }
@@ -57,7 +59,7 @@ fun LaunchContent(modifier: Modifier = Modifier) {
             .padding(16.dp)
     ) {
         items(4) {
-            LaunchItem(modifier = Modifier.padding(top = 16.dp))
+            LaunchItem(modifier = Modifier.padding(top = 10.dp))
         }
     }
 }
@@ -77,23 +79,23 @@ fun LaunchItem(modifier: Modifier = Modifier) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 text = "Kuaizhou-1A | Unknown Payload",
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 text = "ExPace",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 text = "Jiuquan Satellite Launch Center, People's Republic of China",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
             CountdownTimer()
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 "March 01, 2025 - NET 11:00 CET",
                 MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 16.dp)
@@ -143,12 +145,12 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 text = "T${if (isPast) "+" else "-"}",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(end = 4.dp)
             )
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 text = "${days.toString().padStart(2, '0')} : " +
                         "${hours.toString().padStart(2, '0')} : " +
                         "${minutes.toString().padStart(2, '0')} : " +
@@ -160,19 +162,19 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp)
         ) {
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 "Days", MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 20.dp)
             )
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 "Hours", MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 20.dp)
             )
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 "Mins", MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 20.dp)
             )
-            SingleLineText.SingleLineText(
+            SingleLineText(
                 "Secs", MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 20.dp)
             )

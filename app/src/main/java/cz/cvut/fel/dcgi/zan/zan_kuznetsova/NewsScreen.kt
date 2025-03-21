@@ -11,15 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.NavigationItems.navItems
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.NavigationItems.navItems
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
-
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils.BottomNavigation
 
 @Composable
-fun FavoriteScreen() {
+fun NewsScreen() {
     Scaffold(
-        topBar = { FavoriteAppBar() },
-        bottomBar = { FavoriteBottomNavigation() },
+        topBar = { NewsAppBar() },
+        bottomBar = { NewsBottomNavigation() },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         SettingsContent(
@@ -29,7 +29,7 @@ fun FavoriteScreen() {
 }
 
 @Composable
-fun FavoriteContent(modifier: Modifier = Modifier) {
+fun NewsContent(modifier: Modifier = Modifier) {
     Column (
         modifier = modifier
             .fillMaxSize()
@@ -41,17 +41,17 @@ fun FavoriteContent(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteAppBar() {
+fun NewsAppBar() {
     TopAppBar(
         title = {
-            Text(text = "Favorite")
+            Text(text = "News")
         },
     )
 }
 
 @Composable
-fun FavoriteBottomNavigation() {
-    BottomNavigation.BottomNavigation(
+fun NewsBottomNavigation() {
+    BottomNavigation(
         items = navItems,
         selectedItemIndex = 1,
         onItemSelected = { index ->  }
@@ -62,6 +62,6 @@ fun FavoriteBottomNavigation() {
 @Composable
 fun FavoriteScreenPreview() {
     ZankuznetsovaTheme {
-        FavoriteScreen()
+        NewsScreen()
     }
 }

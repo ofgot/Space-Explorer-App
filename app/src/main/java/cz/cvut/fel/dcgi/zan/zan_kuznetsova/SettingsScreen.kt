@@ -11,8 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.NavigationItems.navItems
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.NavigationItems.navItems
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.utils.BottomNavigation
 
 @Composable
 fun SettingsScreen() {
@@ -50,7 +51,7 @@ fun SettingsAppBar() {
 
 @Composable
 fun SettingsBottomNavigation() {
-    BottomNavigation.BottomNavigation(
+    BottomNavigation(
         items = navItems,
         selectedItemIndex = 2,
         onItemSelected = { index ->  }
