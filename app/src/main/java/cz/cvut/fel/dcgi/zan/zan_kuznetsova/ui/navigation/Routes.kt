@@ -10,7 +10,7 @@ sealed class Routes(val route: String) {
     @Serializable
     data object Settings : Routes("Settings")
     @Serializable
-    data object LaunchDetails : Routes("LaunchDetails")
+    data object LaunchDetails : Routes("LaunchDetails/{id}")
     @Serializable
     data object NewsDetails : Routes("NewsDetails")
 }

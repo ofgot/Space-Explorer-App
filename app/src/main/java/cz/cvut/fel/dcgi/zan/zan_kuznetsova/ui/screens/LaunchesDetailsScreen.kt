@@ -1,6 +1,5 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,38 +25,51 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 
 @Composable
-fun DetailsScreen() {
+fun LaunchDetailsScreen(
+    launch: Launch,
+    onBackClick: () -> Unit
+) {
     Scaffold(
-        topBar = { DetailsAppBar() },
+        topBar = { DetailsAppBar(onBackClick) },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        DetailsContent(
+        LaunchDetailsContent(
+            launch,
             modifier =  Modifier.padding(innerPadding)
         )
     }
 }
 
 @Composable
-fun DetailsContent(modifier: Modifier = Modifier) {
+fun LaunchDetailsContent(
+    launch: Launch,
+    modifier: Modifier = Modifier
+) {
     Column (
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        DetailsItem(modifier = Modifier.padding(top = 4.dp))
+        LaunchDetailsItem(
+            launch,
+            modifier = Modifier.padding(top = 4.dp)
+        )
     }
 }
 
 
 @Composable
-fun DetailsItem(modifier: Modifier = Modifier) {
+fun LaunchDetailsItem(
+    launch: Launch,
+    modifier: Modifier = Modifier
+) {
     val scrollableColumnState = rememberScrollState()
 
     Column(
@@ -68,70 +80,65 @@ fun DetailsItem(modifier: Modifier = Modifier) {
             .verticalScroll(scrollableColumnState)
     ) {
         SingleLineText(
-            text = "Kuaizhou-1A | Unknown Payload",
+            text = launch.name,
             style = MaterialTheme.typography.titleLarge,
         )
-        Image(
-            painter = painterResource(R.drawable.img),
-            contentDescription = "Rocket",
+        AsyncImage(
+            model = launch.image.url,
+            contentDescription = launch.image.name,
             modifier = Modifier
-                .padding(top = 20.dp, bottom = 20.dp)
+                .padding(20.dp)
                 .height(300.dp)
         )
         DetailsTextField(
             text1 = "Height",
-            text2 = "19.40 Meters",
+            text2 = launch.rocket.rocketDetails.height.toString(),
             style = MaterialTheme.typography.bodyLarge,
         )
         DetailsTextField(
             text1 = "Max Stages",
-            text2 = "4",
+            text2 = launch.rocket.rocketDetails.maxStage.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Mass To GTO",
-            text2 = "0 kg",
+            text2 = launch.rocket.rocketDetails.massToGTO.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Liftoff Thrust",
-            text2 = "0 kN",
+            text2 = launch.rocket.rocketDetails.liftoffThrust.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Diameter",
-            text2 = "1.40 Meters",
+            text2 = launch.rocket.rocketDetails.diameter.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Mass To LEO",
-            text2 = "300 kg",
+            text2 = launch.rocket.rocketDetails.massToLEO.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Liftoff Mass",
-            text2 = "30 Tonnes",
+            text2 = launch.rocket.rocketDetails.liftoffMass.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
         DetailsTextField(
             text1 = "Launch Success",
-            text2 = "26",
-            style = MaterialTheme.typography.bodyLarge
-        )
-        DetailsTextField(
-            text1 = "Consecutive Success",
-            text2 = "14",
+            text2 = launch.rocket.rocketDetails.successfulLaunches.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Maiden Flight",
-            text2 = "2017-01-09",
+            text2 = launch.rocket.rocketDetails.maidenFlight,
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Launch Failures",
-            text2 = "2",
+            text2 = launch.rocket.rocketDetails.failedLaunches.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         IconButton(
@@ -171,14 +178,16 @@ fun DetailsTextField(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailsAppBar() {
+fun DetailsAppBar(
+    onCloseClick: () -> Unit
+) {
     TopAppBar(
         title = {
             Text(text = "Details")
         },
         navigationIcon = {
             IconButton(
-                onClick = { /*TODO*/ }
+                onClick = onCloseClick
             ) {
                 Icon(
                     Icons.Filled.Close,
@@ -187,13 +196,4 @@ fun DetailsAppBar() {
             }
         }
     )
-}
-
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun DetailsScreenPreview() {
-    ZankuznetsovaTheme {
-        DetailsScreen()
-    }
 }

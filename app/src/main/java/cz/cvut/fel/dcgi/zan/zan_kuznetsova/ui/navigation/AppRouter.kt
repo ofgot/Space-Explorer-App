@@ -3,12 +3,15 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.sampleLaunches
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.LaunchDetailsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.LaunchesScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.SettingsScreen
@@ -62,15 +65,36 @@ fun MainAppRouter(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Routes.Launches
-    ){
+    ) {
         // ask what to do with Launches
         composable<Routes.Launches>() {
             LaunchesScreen(
                 mainBottomNavItem,
                 currentBackStackEntry.value?.destination?.route,
-                sampleLaunches
+                sampleLaunches,
+                onDetailsClick = { id ->
+                    navController.navigate("LaunchDetails/$id")
+                }
             )
         }
+
+        composable(
+            route = Routes.LaunchDetails.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val launchId = backStackEntry.arguments?.getString("id")
+            val launch = sampleLaunches.find { it.id == launchId }
+
+            if (launch != null) {
+                LaunchDetailsScreen(
+                    launch = launch,
+                    onBackClick = { navController.popBackStack() }
+                )
+            }
+        }
+
         composable<Routes.News>() {
             NewsScreen(
                 mainBottomNavItem,

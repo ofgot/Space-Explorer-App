@@ -1,6 +1,5 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
+import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
@@ -42,7 +41,8 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
 fun LaunchesScreen(
     mainBottomNavigationItems: List<BottomNavItem>,
     currentDestination: String?,
-    launches: List<Launch>
+    launches: List<Launch>,
+    onDetailsClick: (String) -> Unit
 ) {
     Scaffold(
         topBar = { LaunchesAppBar() },
@@ -51,7 +51,8 @@ fun LaunchesScreen(
     ) { innerPadding ->
         LaunchContent(
             launches = launches,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            onDetailsClick = onDetailsClick
         )
     }
 }
@@ -59,7 +60,8 @@ fun LaunchesScreen(
 @Composable
 fun LaunchContent(
     launches: List<Launch>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDetailsClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -71,7 +73,10 @@ fun LaunchContent(
                 launch = launch,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 8.dp),
+                onDetailsClick = {
+                    onDetailsClick(launch.id)
+                }
             )
         }
     }
@@ -80,13 +85,14 @@ fun LaunchContent(
 @Composable
 fun LaunchItem(
     launch: Launch,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDetailsClick: () -> Unit
 ) {
     Row(
         modifier = modifier.fillMaxWidth()
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(launch.image.url),      // ASK HERE
+        AsyncImage(
+            model = launch.image.url,
             contentDescription = launch.image.name,
             modifier = Modifier
                 .width(100.dp)
@@ -129,7 +135,7 @@ fun LaunchItem(
 
             ) {
                 IconButton(
-                    onClick = { /*TODO*/ }
+                    onClick = {  }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.play),
@@ -139,7 +145,7 @@ fun LaunchItem(
                     )
                 }
                 IconButton(
-                    onClick = {}
+                    onClick = onDetailsClick
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.info),
@@ -185,7 +191,9 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 40.dp)
         ) {
             SingleLineText(
                 "Days", MaterialTheme.typography.bodyMedium,
