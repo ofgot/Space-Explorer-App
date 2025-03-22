@@ -9,4 +9,8 @@ sealed class Routes(val route: String) {
     data object News : Routes("News")
     @Serializable
     data object Settings : Routes("Settings")
+    @Serializable
+    data object LaunchDetails : Routes("LaunchDetails")
+    @Serializable
+    data object NewsDetails : Routes("NewsDetails")
 }

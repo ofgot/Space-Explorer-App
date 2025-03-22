@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
@@ -133,7 +132,7 @@ fun LaunchItem(
                     onClick = { /*TODO*/ }
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.img_1),
+                        painter = painterResource(R.drawable.play),
                         contentDescription = "Watch video",
                         modifier = Modifier.size(30.dp),
                         tint = Color.Unspecified
@@ -143,7 +142,7 @@ fun LaunchItem(
                     onClick = {}
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.img_2),
+                        painter = painterResource(R.drawable.info),
                         contentDescription = "See details",
                         modifier = Modifier.size(35.dp),
                     )

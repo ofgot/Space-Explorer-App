@@ -138,7 +138,7 @@ fun DetailsItem(modifier: Modifier = Modifier) {
             onClick = {}
         ) {
             Icon(
-                painter = painterResource(R.drawable.img_5),
+                painter = painterResource(R.drawable.wiki),
                 contentDescription = "Wiki page",
                 modifier = Modifier.size(35.dp),
             )

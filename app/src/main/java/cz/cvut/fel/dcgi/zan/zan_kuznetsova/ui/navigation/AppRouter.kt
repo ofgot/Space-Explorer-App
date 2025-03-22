@@ -63,6 +63,7 @@ fun MainAppRouter(navController: NavHostController) {
         navController = navController,
         startDestination = Routes.Launches
     ){
+        // ask what to do with Launches
         composable<Routes.Launches>() {
             LaunchesScreen(
                 mainBottomNavItem,
