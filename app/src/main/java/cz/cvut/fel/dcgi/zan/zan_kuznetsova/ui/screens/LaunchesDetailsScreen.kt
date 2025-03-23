@@ -18,11 +18,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -30,19 +35,26 @@ import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.openUrl
+import kotlinx.coroutines.launch
 
 @Composable
 fun LaunchDetailsScreen(
     launch: Launch,
     onBackClick: () -> Unit
 ) {
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
         topBar = { DetailsAppBar(onBackClick) },
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         LaunchDetailsContent(
             launch,
-            modifier =  Modifier.padding(innerPadding)
+            modifier =  Modifier.padding(innerPadding),
+            snackbarHostState = snackbarHostState
         )
     }
 }
@@ -50,7 +62,8 @@ fun LaunchDetailsScreen(
 @Composable
 fun LaunchDetailsContent(
     launch: Launch,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    snackbarHostState: SnackbarHostState
 ) {
     Column (
         modifier = modifier
@@ -59,7 +72,8 @@ fun LaunchDetailsContent(
     ) {
         LaunchDetailsItem(
             launch,
-            modifier = Modifier.padding(top = 4.dp)
+            modifier = Modifier.padding(top = 4.dp),
+            snackbarHostState = snackbarHostState
         )
     }
 }
@@ -68,9 +82,12 @@ fun LaunchDetailsContent(
 @Composable
 fun LaunchDetailsItem(
     launch: Launch,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    snackbarHostState: SnackbarHostState
 ) {
     val scrollableColumnState = rememberScrollState()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -84,65 +101,74 @@ fun LaunchDetailsItem(
             style = MaterialTheme.typography.titleLarge,
         )
         AsyncImage(
-            model = launch.image.url,
-            contentDescription = launch.image.name,
+            model = launch.image?.url,
+            contentDescription = launch.image?.name,
             modifier = Modifier
                 .padding(20.dp)
                 .height(300.dp)
         )
         DetailsTextField(
             text1 = "Height",
-            text2 = launch.rocket.rocketDetails.height.toString(),
+            text2 = launch.rocket?.rocketDetails?.height.toString(),  // ASK ABOUT ?
             style = MaterialTheme.typography.bodyLarge,
         )
         DetailsTextField(
             text1 = "Max Stages",
-            text2 = launch.rocket.rocketDetails.maxStage.toString(),
+            text2 = launch.rocket?.rocketDetails?.maxStage.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Mass To GTO",
-            text2 = launch.rocket.rocketDetails.massToGTO.toString(),
+            text2 = launch.rocket?.rocketDetails?.massToGTO.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Liftoff Thrust",
-            text2 = launch.rocket.rocketDetails.liftoffThrust.toString(),
+            text2 = launch.rocket?.rocketDetails?.liftoffThrust.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Diameter",
-            text2 = launch.rocket.rocketDetails.diameter.toString(),
+            text2 = launch.rocket?.rocketDetails?.diameter.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Mass To LEO",
-            text2 = launch.rocket.rocketDetails.massToLEO.toString(),
+            text2 = launch.rocket?.rocketDetails?.massToLEO.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Liftoff Mass",
-            text2 = launch.rocket.rocketDetails.liftoffMass.toString(),
+            text2 = launch.rocket?.rocketDetails?.liftoffMass.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
         DetailsTextField(
             text1 = "Launch Success",
-            text2 = launch.rocket.rocketDetails.successfulLaunches.toString(),
+            text2 = launch.rocket?.rocketDetails?.successfulLaunches.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Maiden Flight",
-            text2 = launch.rocket.rocketDetails.maidenFlight,
+            text2 = launch.rocket?.rocketDetails?.maidenFlight.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Launch Failures",
-            text2 = launch.rocket.rocketDetails.failedLaunches.toString(),
+            text2 = launch.rocket?.rocketDetails?.failedLaunches.toString(),
             style = MaterialTheme.typography.bodyLarge
         )
         IconButton(
-            onClick = {}
+            onClick = {
+                scope.launch {
+                    openUrl(
+                        snackbarHostState = snackbarHostState,
+                        context = context,
+                        url = launch.rocket?.rocketDetails?.wikiUrl,
+                        message = "Wiki not available"
+                    )
+                }
+            }
         ) {
             Icon(
                 painter = painterResource(R.drawable.wiki),

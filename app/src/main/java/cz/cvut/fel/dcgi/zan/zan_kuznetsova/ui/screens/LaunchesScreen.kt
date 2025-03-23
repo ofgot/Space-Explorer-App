@@ -1,7 +1,5 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,9 +19,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,9 +40,9 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.formatLaunchDate
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.openUrl
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.navigateToBottomNavItem
-import java.net.URLEncoder
+import kotlinx.coroutines.launch
 
 @Composable
 fun LaunchesScreen(
@@ -49,15 +51,20 @@ fun LaunchesScreen(
     launches: List<Launch>,
     onDetailsClick: (String) -> Unit
 ) {
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
         topBar = { LaunchesAppBar() },
         bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         LaunchContent(
             launches = launches,
             modifier = Modifier.padding(innerPadding),
-            onDetailsClick = onDetailsClick
+            onDetailsClick = onDetailsClick,
+            snackbarHostState = snackbarHostState
         )
     }
 }
@@ -66,7 +73,8 @@ fun LaunchesScreen(
 fun LaunchContent(
     launches: List<Launch>,
     modifier: Modifier = Modifier,
-    onDetailsClick: (String) -> Unit
+    onDetailsClick: (String) -> Unit,
+    snackbarHostState: SnackbarHostState
 ) {
     LazyColumn(
         modifier = modifier
@@ -81,7 +89,8 @@ fun LaunchContent(
                     .padding(vertical = 8.dp),
                 onDetailsClick = {
                     onDetailsClick(launch.id)
-                }
+                },
+                snackbarHostState = snackbarHostState
             )
         }
     }
@@ -91,17 +100,19 @@ fun LaunchContent(
 fun LaunchItem(
     launch: Launch,
     modifier: Modifier = Modifier,
-    onDetailsClick: () -> Unit
+    onDetailsClick: () -> Unit,
+    snackbarHostState: SnackbarHostState
 ) {
 
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     Row(
         modifier = modifier.fillMaxWidth()
     ) {
         AsyncImage(
-            model = launch.image.url,
-            contentDescription = launch.image.name,
+            model = launch.image?.url,
+            contentDescription = launch.image?.name,
             modifier = Modifier
                 .width(100.dp)
                 .height(160.dp)
@@ -119,13 +130,13 @@ fun LaunchItem(
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
-            launch.agency?.let {
-                SingleLineText(
-                    text = it.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
+
+            SingleLineText(
+                text = launch.agency?.name.toString(),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+
             SingleLineText(
                 text = launch.location,
                 style = MaterialTheme.typography.bodyMedium,
@@ -144,8 +155,14 @@ fun LaunchItem(
             ) {
                 IconButton(
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(launch.webcastLive))
-                        context.startActivity(intent)
+                        scope.launch {
+                            openUrl(
+                                snackbarHostState = snackbarHostState,
+                                context = context,
+                                url = launch.webcastLive,
+                                message = "Video not available"
+                            )
+                        }
                     }
                 ) {
                     Icon(

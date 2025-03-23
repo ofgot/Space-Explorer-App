@@ -12,5 +12,5 @@ sealed class Routes(val route: String) {
     @Serializable
     data object LaunchDetails : Routes("LaunchDetails/{id}")
     @Serializable
-    data object NewsDetails : Routes("NewsDetails")
+    data object NewsDetails : Routes("NewsDetails/{id}")
 }

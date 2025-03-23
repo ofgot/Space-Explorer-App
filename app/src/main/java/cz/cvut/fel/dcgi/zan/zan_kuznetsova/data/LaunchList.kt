@@ -45,7 +45,7 @@ val sampleLaunches = listOf(
             )
         ),
         location = "USA",
-        webcastLive = "https://www.youtube.com/watch?v=nULmCwYcWwk&list=RDnULmCwYcWwk&start_radio=1"
+        webcastLive = ""
     ),
 
     Launch(
@@ -76,7 +76,7 @@ val sampleLaunches = listOf(
             name = "Soyuz 2.1a",
             rocketDetails = RocketDetails(
                 infoUrl = "https://example.com/soyuz/info",
-                wikiUrl = "https://en.wikipedia.org/wiki/Soyuz-2",
+                wikiUrl = "",
 
                 height = 46.1,
                 diameter = 2.95,
