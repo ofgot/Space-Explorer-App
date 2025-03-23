@@ -1,5 +1,7 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -36,6 +39,8 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.formatLaunchDate
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.navigateToBottomNavItem
+import java.net.URLEncoder
 
 @Composable
 fun LaunchesScreen(
@@ -88,6 +93,9 @@ fun LaunchItem(
     modifier: Modifier = Modifier,
     onDetailsClick: () -> Unit
 ) {
+
+    val context = LocalContext.current
+
     Row(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -135,7 +143,10 @@ fun LaunchItem(
 
             ) {
                 IconButton(
-                    onClick = {  }
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(launch.webcastLive))
+                        context.startActivity(intent)
+                    }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.play),

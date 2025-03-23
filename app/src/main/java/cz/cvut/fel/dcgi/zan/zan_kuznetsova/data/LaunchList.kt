@@ -44,7 +44,8 @@ val sampleLaunches = listOf(
                 failedLaunches = 10
             )
         ),
-        location = "USA"
+        location = "USA",
+        webcastLive = "https://www.youtube.com/watch?v=nULmCwYcWwk&list=RDnULmCwYcWwk&start_radio=1"
     ),
 
     Launch(
@@ -90,6 +91,7 @@ val sampleLaunches = listOf(
                 failedLaunches = 200
             )
         ),
-        location = "Russia"
+        location = "Russia",
+        webcastLive = "https://www.youtube.com/watch?v=nULmCwYcWwk&list=RDnULmCwYcWwk&start_radio=1"
     )
 )

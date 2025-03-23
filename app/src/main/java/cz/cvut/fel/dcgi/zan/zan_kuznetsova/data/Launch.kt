@@ -6,6 +6,7 @@ data class Launch(
     val status: Status,   // status
     val net: String,      // net    // approximate or exact time
     val location: String,
+    val webcastLive: String,    // webcast_live
     val image: Image,
     val agency: Agency?,
     val rocket: Rocket,

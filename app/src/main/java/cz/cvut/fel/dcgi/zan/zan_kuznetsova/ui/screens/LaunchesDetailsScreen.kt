@@ -179,7 +179,7 @@ fun DetailsTextField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsAppBar(
-    onCloseClick: () -> Unit
+    onBackClick: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -187,7 +187,7 @@ fun DetailsAppBar(
         },
         navigationIcon = {
             IconButton(
-                onClick = onCloseClick
+                onClick = onBackClick
             ) {
                 Icon(
                     Icons.Filled.Close,
