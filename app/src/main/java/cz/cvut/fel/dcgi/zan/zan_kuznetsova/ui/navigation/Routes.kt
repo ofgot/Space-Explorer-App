@@ -1,16 +1,18 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
+
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Routes(val route: String) {
+sealed interface Routes {
     @Serializable
-    data object Launches : Routes("Launches")
+    data object LaunchesGraph : Routes
+
     @Serializable
-    data object News : Routes("News")
+    data object News : Routes
+
     @Serializable
-    data object Settings : Routes("Settings")
-    @Serializable
-    data object LaunchDetails : Routes("LaunchDetails/{id}")
-    @Serializable
-    data object NewsDetails : Routes("NewsDetails/{id}")
+    data object Settings : Routes
+
+//    @Serializable
+//    data object NewsDetails : Routes("NewsDetails/{id}")
 }

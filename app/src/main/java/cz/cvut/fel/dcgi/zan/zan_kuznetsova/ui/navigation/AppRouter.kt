@@ -1,20 +1,21 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.sampleLaunches
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.LaunchDetailsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.LaunchesScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.SettingsScreen
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchesDetailsViewModel
 
 
 @Composable
@@ -33,16 +34,16 @@ fun MainAppRouter(navController: NavHostController) {
     val mainBottomNavItem = remember {
         listOf(
             BottomNavItem(
-                route = Routes.Launches.toString(),
+                route = Routes.LaunchesGraph,
                 label = "Launches",
                 iconId = R.drawable.rocket,
                 contentDescription = "Launches nav bar item",
                 onClick = {
-                    navigateToBottomNavItem(navController, Routes.Launches)
+                    navigateToBottomNavItem(navController, Routes.LaunchesGraph)
                 }
             ),
             BottomNavItem(
-                route = Routes.News.toString(),
+                route = Routes.News,
                 label = "News",
                 iconId = R.drawable.news,
                 contentDescription = "News nav bar item",
@@ -51,7 +52,7 @@ fun MainAppRouter(navController: NavHostController) {
                 }
             ),
             BottomNavItem(
-                route = Routes.Settings.toString(),
+                route = Routes.Settings,
                 label = "Settings",
                 iconId = R.drawable.settings,
                 contentDescription = "Settings nav bar item",
@@ -64,34 +65,37 @@ fun MainAppRouter(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = Routes.Launches
+        startDestination = Routes.LaunchesGraph
     ) {
-        // ask what to do with Launches
-        composable<Routes.Launches>() {
-            LaunchesScreen(
-                mainBottomNavItem,
-                currentBackStackEntry.value?.destination?.route,
-                sampleLaunches,
-                onDetailsClick = { id ->
-                    navController.navigate("LaunchDetails/$id")
-                }
-            )
-        }
 
-        composable(
-            route = Routes.LaunchDetails.route,
-            arguments = listOf(navArgument("id") {
-                type = NavType.StringType
-            })
-        ) { backStackEntry ->
-            val launchId = backStackEntry.arguments?.getString("id")
-            val launch = sampleLaunches.find { it.id == launchId }
+        navigation<Routes.LaunchesGraph>(
+            startDestination = LaunchesRoutes.Launches
+        ) {
+            composable<LaunchesRoutes.Launches> { backStackEntry ->
+                val viewModel = backStackEntry.sharedNavViewModel<LaunchesDetailsViewModel>(navController)
+                val state by viewModel.state.collectAsStateWithLifecycle()
 
-            if (launch != null) {
-                LaunchDetailsScreen(
-                    launch = launch,
-                    onBackClick = { navController.popBackStack() }
+                LaunchesScreen(
+                    mainBottomNavItem,
+                    currentBackStackEntry.value?.destination?.route,
+                    state,
+                    onDetailsClick = { id ->
+                        viewModel.applyLaunch(id)
+                        navController.navigate(LaunchesRoutes.LaunchDetails)
+                    }
                 )
+            }
+
+            composable<LaunchesRoutes.LaunchDetails> { backStackEntry ->
+                val viewModel = backStackEntry.sharedNavViewModel<LaunchesDetailsViewModel>(navController)
+                val launchState by viewModel.launchState.collectAsStateWithLifecycle()
+
+                launchState?.let { state ->
+                    LaunchDetailsScreen(
+                        launch = state,
+                        onBackClick = { navController.popBackStack() }
+                    )
+                }
             }
         }
 

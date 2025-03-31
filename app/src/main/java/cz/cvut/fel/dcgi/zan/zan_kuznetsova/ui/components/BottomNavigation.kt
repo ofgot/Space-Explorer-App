@@ -27,7 +27,7 @@ fun BottomNavigation(
                     )
                 },
                 label = { Text(item.label) },
-                selected = item.route == currentRoute,
+                selected = item.route.toString() == currentRoute,
                 onClick = item.onClick
             )
         }
