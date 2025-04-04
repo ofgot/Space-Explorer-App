@@ -13,9 +13,11 @@ import androidx.navigation.compose.rememberNavController
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.LaunchDetailsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.LaunchesScreen
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsDetailsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.SettingsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchesDetailsViewModel
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsDetailsViewModel
 
 
 @Composable
@@ -48,7 +50,7 @@ fun MainAppRouter(navController: NavHostController) {
                 iconId = R.drawable.news,
                 contentDescription = "News nav bar item",
                 onClick = {
-                    navigateToBottomNavItem(navController, Routes.News)
+                    navigateToBottomNavItem(navController, Routes.NewsGraph)
                 }
             ),
             BottomNavItem(
@@ -99,12 +101,37 @@ fun MainAppRouter(navController: NavHostController) {
             }
         }
 
-        composable<Routes.News>() {
-            NewsScreen(
-                mainBottomNavItem,
-                currentBackStackEntry.value?.destination?.route,
-            )
+        navigation<Routes.NewsGraph>(
+            startDestination = NewsRoutes.News
+        ) {
+            composable<NewsRoutes.News> { backStackEntry ->
+                val viewModel = backStackEntry.sharedNavViewModel<NewsDetailsViewModel>(navController)
+                val state by viewModel.state.collectAsStateWithLifecycle()
+
+                NewsScreen(
+                    mainBottomNavigationItems = mainBottomNavItem,
+                    currentDestination = currentBackStackEntry.value?.destination?.route,
+                    news = state,
+                    onDetailsClick = { id ->
+                        viewModel.applyNews(id)
+                        navController.navigate(NewsRoutes.NewsDetails)
+                    }
+                )
+            }
+
+            composable<NewsRoutes.NewsDetails> { backStackEntry ->
+                val viewModel = backStackEntry.sharedNavViewModel<NewsDetailsViewModel>(navController)
+                val newsState by viewModel.newsState.collectAsStateWithLifecycle()
+
+                newsState?.let {
+                    NewsDetailsScreen(
+                        news = it,
+                        onBackClick = { navController.popBackStack() })
+                }
+            }
         }
+
+
         composable<Routes.Settings>() {
             SettingsScreen(
                 mainBottomNavItem,

@@ -172,6 +172,7 @@ fun LaunchItem(
                         tint = Color.Unspecified
                     )
                 }
+
                 IconButton(
                     onClick = onDetailsClick
                 ) {

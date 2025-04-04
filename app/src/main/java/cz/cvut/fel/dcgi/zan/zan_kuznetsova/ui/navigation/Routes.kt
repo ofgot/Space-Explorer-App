@@ -13,6 +13,6 @@ sealed interface Routes {
     @Serializable
     data object Settings : Routes
 
-//    @Serializable
-//    data object NewsDetails : Routes("NewsDetails/{id}")
+    @Serializable
+    data object NewsGraph : Routes
 }
