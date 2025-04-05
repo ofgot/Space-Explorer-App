@@ -2,7 +2,6 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.News
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +15,7 @@ class NewsDetailsViewModel : ViewModel() {
             author = "Eric Berger",
             image = Image(
                 name = "Mars Lander",
-                url = "https://example.com/images/mars_lander.jpg"
+                url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
             ),
             publishedAt = "2025-04-01T15:30:00Z",
             url = "https://space-news.com/nasa-mars-lander-engine-test",
@@ -31,7 +30,7 @@ class NewsDetailsViewModel : ViewModel() {
                 url = "https://example.com/images/falcon9.jpg"
             ),
             publishedAt = "2025-04-02T10:00:00Z",
-            url = "https://spacereports.com/falcon9-reuse-record",
+            url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg",
             summary = "SpaceX has achieved a milestone by launching the same Falcon 9 booster for the 20th time, setting a new industry standard."
         ),
         News(
@@ -43,7 +42,7 @@ class NewsDetailsViewModel : ViewModel() {
                 url = "https://example.com/images/new_shepard.jpg"
             ),
             publishedAt = "2025-04-03T12:45:00Z",
-            url = "https://blueupdate.com/new-shepard-crew-flight",
+            url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg",
             summary = "Blue Origin is ready to send its first passengers into suborbital space on its newly updated New Shepard vehicle."
         ),
         News(
@@ -52,7 +51,7 @@ class NewsDetailsViewModel : ViewModel() {
             author = "Wei Zhang",
             image = Image(
                 name = "Earth Observation Satellite",
-                url = "https://example.com/images/china_satellite.jpg"
+                url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
             ),
             publishedAt = "2025-04-03T18:00:00Z",
             url = "https://chinapace.cn/earth-observation-launch",
@@ -64,7 +63,7 @@ class NewsDetailsViewModel : ViewModel() {
             author = "Luca Rossi",
             image = Image(
                 name = "Venus Mission Concept",
-                url = "https://example.com/images/venus_mission.jpg"
+                url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
             ),
             publishedAt = "2025-04-04T09:00:00Z",
             url = "https://spacecollab.eu/esa-roscosmos-venus",

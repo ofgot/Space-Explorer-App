@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,10 +34,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Image
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Rocket
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.RocketDetails
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Status
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.formatLaunchDate
@@ -96,6 +104,7 @@ fun LaunchContent(
     }
 }
 
+
 @Composable
 fun LaunchItem(
     launch: Launch,
@@ -108,12 +117,16 @@ fun LaunchItem(
     val scope = rememberCoroutineScope()
 
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .height(190.dp)
+            .fillMaxHeight()
     ) {
         AsyncImage(
             model = launch.image?.url,
             contentDescription = launch.image?.name,
             modifier = Modifier
+                .padding(top = 15.dp)
                 .width(100.dp)
                 .height(160.dp)
                 .clip(RoundedCornerShape(8.dp))
@@ -222,7 +235,7 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 40.dp)
+                .padding(horizontal = 20.dp)
         ) {
             SingleLineText(
                 "Days", MaterialTheme.typography.bodyMedium,
@@ -252,5 +265,44 @@ fun LaunchesAppBar() {
         title = {
             Text(text = "Launches")
         }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewLaunchItem() {
+    val fakeLaunch = Launch(
+        id = "1",
+        name = "Falcon 9 | Starlink Group 7-2",
+        status = Status(name = "Success", abbrev = "S"),
+        net = "2025-04-01T15:30:00Z",
+        location = "Cape Canaveral",
+        webcastLive = "https://youtube.com",
+        image = Image(
+            name = "Falcon 9",
+            url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
+        ),
+        agency = Agency(
+            name = "SpaceX",
+            abbrev = "SPX",
+            country = "USA",
+            description = "",
+            logo = null,
+            totalLaunchCount = 0,
+            successfulLaunches = 0,
+            failedLaunches = 0,
+            wikiUrl = "",
+            infoUrl = ""
+        ),
+        rocket = null
+    )
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchItem(
+        launch = fakeLaunch,
+        onDetailsClick = {},
+        snackbarHostState = snackbarHostState,
+        modifier = Modifier.padding(8.dp)
     )
 }

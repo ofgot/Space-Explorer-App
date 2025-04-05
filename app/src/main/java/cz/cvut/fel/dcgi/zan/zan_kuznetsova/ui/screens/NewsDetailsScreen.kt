@@ -40,6 +40,8 @@ fun NewsDetailsScreen(
     }
 }
 
+
+
 @Composable
 fun NewsDetailsContent(
     news: News,

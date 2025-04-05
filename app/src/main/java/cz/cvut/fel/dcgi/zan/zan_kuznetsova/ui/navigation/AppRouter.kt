@@ -69,7 +69,6 @@ fun MainAppRouter(navController: NavHostController) {
         navController = navController,
         startDestination = Routes.LaunchesGraph
     ) {
-
         navigation<Routes.LaunchesGraph>(
             startDestination = LaunchesRoutes.Launches
         ) {
@@ -130,7 +129,6 @@ fun MainAppRouter(navController: NavHostController) {
                 }
             }
         }
-
 
         composable<Routes.Settings>() {
             SettingsScreen(
