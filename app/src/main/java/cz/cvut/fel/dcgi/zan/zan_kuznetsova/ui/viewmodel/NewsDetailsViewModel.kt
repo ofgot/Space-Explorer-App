@@ -10,66 +10,43 @@ import kotlinx.coroutines.flow.update
 class NewsDetailsViewModel : ViewModel() {
     val sampleNews = listOf(
         News(
-            id = 1,
-            title = "NASA Successfully Tests New Mars Lander Engines",
-            author = "Eric Berger",
+            id = 30429,
+            title = "Framonauts Splash Down Near California",
+            author = "Marcia Smith",
             image = Image(
-                name = "Mars Lander",
-                url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
+                name = "Dragon Recovery",
+                url = "https://spacepolicyonline.com/wp-content/uploads/2025/03/dragon-recovery-locations-CA-300x143.png"
             ),
-            publishedAt = "2025-04-01T15:30:00Z",
-            url = "https://space-news.com/nasa-mars-lander-engine-test",
-            summary = "NASA has successfully tested its next-generation Mars lander engines, preparing for future manned missions to the Red Planet."
+            publishedAt = "2025-04-05T03:32:23Z",
+            url = "https://spacepolicyonline.com/news/framonauts-splash-down-near-california/",
+            summary = "The four crew members of Fram2, a private astronaut mission that circled the North and South Poles for the first time, is back home. Calling themselves “Framonauts,” they spent three-and-a-half […]"
         ),
         News(
-            id = 2,
-            title = "SpaceX Breaks Reuse Record With Falcon 9 Launch",
-            author = "Sarah Kaplan",
+            id = 30428,
+            title = "Live coverage: SpaceX to launch 28 Starlink satellites on Falcon 9 rocket from Cape Canaveral",
+            author = "Will Robinson-Smith",
             image = Image(
-                name = "Falcon 9 Launch",
-                url = "https://example.com/images/falcon9.jpg"
+                name = "Starlink Launch",
+                url = "http://spaceflightnow.com/wp-content/uploads/2024/12/20241207-Starlink-12-5-Pad-Shot.jpg"
             ),
-            publishedAt = "2025-04-02T10:00:00Z",
-            url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg",
-            summary = "SpaceX has achieved a milestone by launching the same Falcon 9 booster for the 20th time, setting a new industry standard."
+            publishedAt = "2025-04-05T02:33:27Z",
+            url = "https://spaceflightnow.com/2025/04/05/live-coverage-spacex-to-launch-28-starlink-satellites-on-falcon-9-rocket-from-cape-canaveral/",
+            summary = "The Starlink 6-72 mission will be the 26th launch of Starlink satellites in 2025. Liftoff of from pad 40 at Cape Canaveral Space Force Station is set for Saturday, April 5, at 10:40 p.m. EDT (0240 UTC)."
         ),
         News(
-            id = 3,
-            title = "Blue Origin Announces First Crewed Flight of New Shepard",
-            author = "Jessica Watkins",
+            id = 30427,
+            title = "NASA seeks proposals for two private astronaut missions to ISS",
+            author = "Jeff Foust",
             image = Image(
-                name = "New Shepard",
-                url = "https://example.com/images/new_shepard.jpg"
+                name = "ISS Proposal",
+                url = "https://i0.wp.com/spacenews.com/wp-content/uploads/2023/03/ax1-dockediss.jpg?fit=1024%2C575&quality=89&ssl=1"
             ),
-            publishedAt = "2025-04-03T12:45:00Z",
-            url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg",
-            summary = "Blue Origin is ready to send its first passengers into suborbital space on its newly updated New Shepard vehicle."
-        ),
-        News(
-            id = 4,
-            title = "China Launches Earth Observation Satellite From Taiyuan",
-            author = "Wei Zhang",
-            image = Image(
-                name = "Earth Observation Satellite",
-                url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
-            ),
-            publishedAt = "2025-04-03T18:00:00Z",
-            url = "https://chinapace.cn/earth-observation-launch",
-            summary = "China has successfully launched a new Earth observation satellite that will aid in agriculture, climate studies, and disaster monitoring."
-        ),
-        News(
-            id = 5,
-            title = "ESA and Roscosmos Discuss Joint Mission to Venus",
-            author = "Luca Rossi",
-            image = Image(
-                name = "Venus Mission Concept",
-                url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
-            ),
-            publishedAt = "2025-04-04T09:00:00Z",
-            url = "https://spacecollab.eu/esa-roscosmos-venus",
-            summary = "The European Space Agency and Roscosmos are in talks about a future collaborative mission to study Venus' atmosphere and geology."
+            publishedAt = "2025-04-04T23:40:43Z",
+            url = "",
+            summary = "NASA’s latest call for proposals for private astronaut missions to the space station opens the door to having those missions commanded by someone other than a former NASA astronaut."
         )
     )
+
 
     private val _state = MutableStateFlow(sampleNews)
     val state = _state.asStateFlow()

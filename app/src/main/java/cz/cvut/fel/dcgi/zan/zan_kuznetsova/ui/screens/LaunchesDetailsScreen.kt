@@ -109,7 +109,7 @@ fun LaunchDetailsItem(
         )
         DetailsTextField(
             text1 = "Height",
-            text2 = launch.rocket?.rocketDetails?.height.toString(),  // ASK ABOUT ?
+            text2 = launch.rocket?.rocketDetails?.height.toString(),
             style = MaterialTheme.typography.bodyLarge,
         )
         DetailsTextField(
