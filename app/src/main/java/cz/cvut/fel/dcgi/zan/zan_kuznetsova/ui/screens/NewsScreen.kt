@@ -34,8 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.db.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.News
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.MoreLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText

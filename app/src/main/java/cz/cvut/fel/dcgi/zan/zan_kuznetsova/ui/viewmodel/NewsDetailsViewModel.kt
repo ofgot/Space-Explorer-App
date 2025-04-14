@@ -1,8 +1,8 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.db.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.News
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

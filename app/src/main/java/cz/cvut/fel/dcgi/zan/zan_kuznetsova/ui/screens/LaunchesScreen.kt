@@ -38,13 +38,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Agency
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.News
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Rocket
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.RocketDetails
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Status
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Status
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.formatLaunchDate

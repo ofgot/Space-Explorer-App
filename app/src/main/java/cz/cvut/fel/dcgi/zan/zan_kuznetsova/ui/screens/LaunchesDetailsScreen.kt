@@ -33,7 +33,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.openUrl
 import kotlinx.coroutines.launch

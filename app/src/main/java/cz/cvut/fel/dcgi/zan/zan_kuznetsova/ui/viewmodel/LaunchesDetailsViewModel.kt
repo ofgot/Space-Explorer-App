@@ -1,12 +1,12 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Agency
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Launch
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Rocket
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.RocketDetails
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Status
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Rocket
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.RocketDetails
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Status
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
