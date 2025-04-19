@@ -34,8 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.News
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.MoreLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
@@ -46,7 +46,7 @@ fun NewsScreen(
     mainBottomNavigationItems: List<BottomNavItem>,
     currentDestination: String?,
     news: List<News>,
-    onDetailsClick: (String) -> Unit
+    onDetailsClick: (Int) -> Unit
 ) {
 
     Scaffold(
@@ -66,7 +66,7 @@ fun NewsScreen(
 @Composable
 fun NewsContent(
     news: List<News>,
-    onDetailsClick: (String) -> Unit,
+    onDetailsClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -81,7 +81,7 @@ fun NewsContent(
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
                 onDetailsClick = {
-                    onDetailsClick(singleNews.id.toString())
+                    onDetailsClick(singleNews.id)
                 }
             )
         }

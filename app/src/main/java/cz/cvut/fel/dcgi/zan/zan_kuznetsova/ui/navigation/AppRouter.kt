@@ -20,6 +20,7 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.SettingsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsDetailsViewModel
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
 
 
 @Composable
@@ -112,8 +113,14 @@ fun MainAppRouter(navController: NavHostController) {
             startDestination = NewsRoutes.News
         ) {
             composable<NewsRoutes.News> { backStackEntry ->
-                val viewModel = backStackEntry.sharedNavViewModel<NewsDetailsViewModel>(navController)
-                val state by viewModel.state.collectAsStateWithLifecycle()
+                val viewModel = backStackEntry.sharedKoinNavViewModel<NewsViewModel>(navController)
+                val state by viewModel.news.collectAsStateWithLifecycle()
+
+                LaunchedEffect(true) {
+                    if (state.isEmpty()) {
+                        viewModel.downloadNews()
+                    }
+                }
 
                 NewsScreen(
                     mainBottomNavigationItems = mainBottomNavItem,
@@ -127,7 +134,7 @@ fun MainAppRouter(navController: NavHostController) {
             }
 
             composable<NewsRoutes.NewsDetails> { backStackEntry ->
-                val viewModel = backStackEntry.sharedNavViewModel<NewsDetailsViewModel>(navController)
+                val viewModel = backStackEntry.sharedKoinNavViewModel<NewsViewModel>(navController)
                 val newsState by viewModel.newsState.collectAsStateWithLifecycle()
 
                 newsState?.let {

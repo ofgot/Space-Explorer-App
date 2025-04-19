@@ -1,4 +1,4 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local
 
 data class Launch(
     val id: String = "",       // id

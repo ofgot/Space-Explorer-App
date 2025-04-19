@@ -1,13 +1,13 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.datasource
 
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.LaunchDao
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.LaunchEntity
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Agency
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Rocket
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.RocketDetails
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Status
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Rocket
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.RocketDetails
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Status
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,24 +15,26 @@ import kotlinx.coroutines.flow.map
 
 class LaunchDBDataSourceImpl(
     private val launchDao: LaunchDao
-):LaunchDBDataSource {
+) : LaunchDBDataSource {
 
     override fun getAllLaunches(): Flow<List<Launch>> =
         launchDao.getAllLaunches().map { entities ->
             entities.map { it.toLaunch() }
         }
 
-    override suspend fun getLaunchForId(id: String): Launch {
-        return launchDao.getLaunchForId(id).toLaunch()
-    }
+    override suspend fun getLaunchById(id: String): Launch =
+        launchDao.getLaunchForId(id).toLaunch()
 
-    override suspend fun insertLaunches(launches: List<Launch>) {
-        launchDao.insertLaunches(launches.map { it.toLaunchEntity() })
-    }
+    override suspend fun insertLaunches(launches: List<Launch>) =
+        launchDao.insertLaunches(
+            launches.map {
+                it.toLaunchEntity()
+            }
+        )
 
-    override suspend fun deleteAllLaunches() {
+
+    override suspend fun deleteAllLaunches() =
         launchDao.deleteAllLaunches()
-    }
 }
 
 

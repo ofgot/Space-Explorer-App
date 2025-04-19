@@ -1,6 +1,4 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local
-
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local
 
 data class News(
     val id: Int = 0,

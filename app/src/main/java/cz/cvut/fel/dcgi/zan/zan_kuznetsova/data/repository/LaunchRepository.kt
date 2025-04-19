@@ -1,7 +1,7 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource.LaunchDBDataSource
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.datasource.LaunchDBDataSource
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Launch
 
 class LaunchRepository(
     private val launchDBDataSource: LaunchDBDataSource,
@@ -17,6 +17,6 @@ class LaunchRepository(
     }
 
     suspend fun getLaunchesById(id: String) =
-        launchDBDataSource.getLaunchForId(id)
+        launchDBDataSource.getLaunchById(id)
 
 }

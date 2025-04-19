@@ -4,24 +4,24 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.LaunchDao
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.LaunchEntity
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.NewsDao
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.NewsEntity
 
-@Database(entities = [LaunchEntity::class], version = 1)
-abstract class LaunchDatabase : RoomDatabase() {
+@Database(entities = [NewsEntity::class], version = 1)
+abstract class NewsDatabase : RoomDatabase() {
 
-    abstract fun launchDao(): LaunchDao
+    abstract fun newsDao(): NewsDao
 
     companion object {
         @Volatile
-        private var INSTANCE: LaunchDatabase? = null
+        private var INSTANCE: NewsDatabase? = null
 
-        fun getDatabase(context: Context): LaunchDatabase =
+        fun getDatabase(context: Context): NewsDatabase =
             INSTANCE ?: synchronized(this) {
                 Room.databaseBuilder(
                     context,
-                    LaunchDatabase::class.java,
-                    "launches_database"
+                    NewsDatabase::class.java,
+                    "news_database"
                 )
                     .fallbackToDestructiveMigration(true)
                     .build()

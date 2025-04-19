@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.LaunchEntity
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface LaunchDao {
     @Query("SELECT * FROM launches ORDER BY net ASC")

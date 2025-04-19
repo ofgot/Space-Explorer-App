@@ -1,0 +1,52 @@
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.datasource
+
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.NewsDao
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.NewsEntity
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.News
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+class NewsDBDataSourceImpl(
+    private val newsDao: NewsDao
+) : DBDataSource<News, Int> {
+
+    override fun getAll(): Flow<List<News>> =
+        newsDao.getAllNews().map { entities ->
+            entities.map { it.toNews() }
+        }
+
+    override suspend fun getById(id: Int): News =
+        newsDao.getNewsForId(id).toNews()
+
+    override suspend fun insertAll(data: List<News>) =
+        newsDao.insertNews(
+            data.map {
+                it.toNewsEntity()
+            }
+        )
+
+    override suspend fun deleteAll() =
+        newsDao.deleteAllNews()
+}
+
+// Mapping
+
+fun News.toNewsEntity(): NewsEntity = NewsEntity(
+    id = id,
+    title = title,
+    author = author,
+    image = image,
+    publishedAt = publishedAt,
+    url = url,
+    summary = summary
+)
+
+fun NewsEntity.toNews(): News = News(
+    id = id,
+    title = title,
+    author = author,
+    image = image,
+    publishedAt = publishedAt,
+    url = url,
+    summary = summary
+)
