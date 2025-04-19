@@ -1,6 +1,8 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -16,7 +18,7 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.LaunchesScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsDetailsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.SettingsScreen
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchesDetailsViewModel
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsDetailsViewModel
 
 
@@ -73,8 +75,14 @@ fun MainAppRouter(navController: NavHostController) {
             startDestination = LaunchesRoutes.Launches
         ) {
             composable<LaunchesRoutes.Launches> { backStackEntry ->
-                val viewModel = backStackEntry.sharedNavViewModel<LaunchesDetailsViewModel>(navController)
-                val state by viewModel.state.collectAsStateWithLifecycle()
+                val viewModel = backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
+                val state by viewModel.launches.collectAsStateWithLifecycle()
+
+                LaunchedEffect(true) {
+                    if (state.isEmpty()) {
+                        viewModel.downloadLaunches()
+                    }
+                }
 
                 LaunchesScreen(
                     mainBottomNavItem,
@@ -83,12 +91,12 @@ fun MainAppRouter(navController: NavHostController) {
                     onDetailsClick = { id ->
                         viewModel.applyLaunch(id)
                         navController.navigate(LaunchesRoutes.LaunchDetails)
-                    }
+                    },
                 )
             }
 
             composable<LaunchesRoutes.LaunchDetails> { backStackEntry ->
-                val viewModel = backStackEntry.sharedNavViewModel<LaunchesDetailsViewModel>(navController)
+                val viewModel = backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
                 val launchState by viewModel.launchState.collectAsStateWithLifecycle()
 
                 launchState?.let { state ->

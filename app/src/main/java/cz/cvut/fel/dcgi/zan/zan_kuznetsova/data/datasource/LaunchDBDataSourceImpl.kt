@@ -1,35 +1,36 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.datasource
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.db.LaunchDao
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.db.LaunchEntity
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Agency
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Launch
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Rocket
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.RocketDetails
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Status
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.LaunchDao
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.LaunchEntity
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Rocket
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.RocketDetails
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Status
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class LaunchDBDataSource(
-    private val launchDao: LaunchDao
-) {
 
-    fun getAllLaunches(): Flow<List<Launch>> =
+class LaunchDBDataSourceImpl(
+    private val launchDao: LaunchDao
+):LaunchDBDataSource {
+
+    override fun getAllLaunches(): Flow<List<Launch>> =
         launchDao.getAllLaunches().map { entities ->
             entities.map { it.toLaunch() }
         }
 
-    suspend fun getLaunchForId(id: String): Launch {
+    override suspend fun getLaunchForId(id: String): Launch {
         return launchDao.getLaunchForId(id).toLaunch()
     }
 
-    suspend fun insertLaunches(launches: List<Launch>) {
+    override suspend fun insertLaunches(launches: List<Launch>) {
         launchDao.insertLaunches(launches.map { it.toLaunchEntity() })
     }
 
-    suspend fun deleteAllLaunches() {
+    override suspend fun deleteAllLaunches() {
         launchDao.deleteAllLaunches()
     }
 }

@@ -1,14 +1,14 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.db
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Agency
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Launch
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Rocket
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.RocketDetails
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Status
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Rocket
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.RocketDetails
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Status
 
 
-private val sampleLaunches = listOf(
+val sampleLaunches = listOf(
     Launch(
         id = "1",
         name = "Falcon 9 | Starlink Group 7-2",

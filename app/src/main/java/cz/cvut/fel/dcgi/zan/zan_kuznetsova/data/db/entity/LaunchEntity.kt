@@ -1,4 +1,4 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.db
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

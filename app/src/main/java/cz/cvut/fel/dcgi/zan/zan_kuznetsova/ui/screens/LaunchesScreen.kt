@@ -38,10 +38,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Agency
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Launch
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.local.Status
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Status
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.formatLaunchDate
@@ -54,7 +54,7 @@ fun LaunchesScreen(
     mainBottomNavigationItems: List<BottomNavItem>,
     currentDestination: String?,
     launches: List<Launch>,
-    onDetailsClick: (String) -> Unit
+    onDetailsClick: (String) -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
