@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,12 +36,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Image
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.temporary.sampleNews
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.MoreLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.Routes
 
 @Composable
 fun NewsScreen(
@@ -53,17 +55,18 @@ fun NewsScreen(
 ) {
 
     Scaffold(
-        topBar = { NewsAppBar(
-            query = query,
-            onQueryChange = onQueryChange
-        ) },
+        topBar = {
+            NewsAppBar()
+        },
         bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         NewsContent(
             news = news,
-            modifier =  Modifier.padding(innerPadding),
+            modifier = Modifier.padding(innerPadding),
             onDetailsClick = onDetailsClick,
+            query = query,
+            onQueryChange = onQueryChange
         )
     }
 }
@@ -73,13 +76,26 @@ fun NewsScreen(
 fun NewsContent(
     news: List<News>,
     onDetailsClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    query: String,
+    onQueryChange: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        item {
+            OutlinedTextField(
+                value = query,
+                onValueChange = onQueryChange,
+                label = { Text("Search news...") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+        }
+
         items(news) { singleNews ->
             NewsItem(
                 news = singleNews,
@@ -99,7 +115,7 @@ fun NewsItem(
     news: News,
     modifier: Modifier,
     onDetailsClick: () -> Unit,
-){
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -116,13 +132,17 @@ fun NewsItem(
                 .background(Color.LightGray),
             contentScale = ContentScale.Crop
         )
-        Column (
-            modifier = Modifier.fillMaxWidth().fillMaxHeight()
-        ){
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
             MoreLineText(
                 text = news.publishedAt,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 16.dp, bottom = 10.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(start = 16.dp, bottom = 10.dp)
+                    .fillMaxWidth(),
                 maxLine = 1,
                 textAlign = TextAlign.Right
             )
@@ -135,11 +155,13 @@ fun NewsItem(
                 textAlign = TextAlign.Center,
             )
 
-            Row (
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
-            ){
+            ) {
                 IconButton(
                     onClick = onDetailsClick
                 ) {
@@ -148,7 +170,7 @@ fun NewsItem(
                         contentDescription = "See details",
                         modifier = Modifier.size(35.dp),
 
-                    )
+                        )
                 }
 
                 SingleLineText(
@@ -161,49 +183,63 @@ fun NewsItem(
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NewsAppBar() {
+    TopAppBar(
+        title = {
+            SingleLineText(
+                text = "News",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
+    )
+}
+
+
 @Preview(showBackground = true)
 @Composable
-fun Show(){
-    val fakeNews = News(
-        id = 1,
-        title = "NASA Successfully Tests New Mars Lander Engines and want money and want money and want money and want money",
-        author = "Eric Berger",
-        image = Image(
-            name = "Mars Lander",
-            url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
-        ),
-        publishedAt = "2025-04-01T15:30:00Z",
-        url = "https://space-news.com/nasa-mars-lander-engine-test",
-        summary = "NASA has successfully tested its next-generation Mars lander engines, preparing for future manned missions to the Red Planet."
-    )
+fun NewsScreenPreview() {
 
-    NewsItem(
-        news = fakeNews,
-        modifier = Modifier
-            .padding(16.dp),
+    val mainBottomNavItem = remember {
+        listOf(
+            BottomNavItem(
+                route = Routes.LaunchesGraph,
+                label = "Launches",
+                iconId = R.drawable.rocket,
+                contentDescription = "Launches nav bar item",
+                onClick = {
+                }
+            ),
+            BottomNavItem(
+                route = Routes.News,
+                label = "News",
+                iconId = R.drawable.news,
+                contentDescription = "News nav bar item",
+                onClick = {
+                }
+            ),
+            BottomNavItem(
+                route = Routes.Settings,
+                label = "Settings",
+                iconId = R.drawable.settings,
+                contentDescription = "Settings nav bar item",
+                onClick = {
+                }
+            )
+        )
+    }
+
+    NewsScreen(
+        mainBottomNavigationItems = mainBottomNavItem,
+        currentDestination = "news_route",
+        query = "spacex",
+        news = sampleNews,
+        onQueryChange = {},
         onDetailsClick = {}
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun NewsAppBar(
-    query: String,
-    onQueryChange: (String) -> Unit
-) {
-    Column {
-        TopAppBar(
-            title = {
-                Text(text = "News")
-            },
-        )
-        OutlinedTextField(
-            value = query,
-            onValueChange = onQueryChange,
-            label = { Text("Search by name") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        )
-    }
-}
+

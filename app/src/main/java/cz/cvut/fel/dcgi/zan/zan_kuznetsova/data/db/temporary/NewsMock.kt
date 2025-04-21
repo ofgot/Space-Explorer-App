@@ -17,6 +17,42 @@ val sampleNews = listOf(
         summary = "The four crew members of Fram2, a private astronaut mission that circled the North and South Poles for the first time, is back home. Calling themselves “Framonauts,” they spent three-and-a-half […]"
     ),
     News(
+        id = 30231,
+        title = "Framonauts Splash Down Near California",
+        author = "Marcia Smith",
+        image = Image(
+            name = "Dragon Recovery",
+            url = "https://spacepolicyonline.com/wp-content/uploads/2025/03/dragon-recovery-locations-CA-300x143.png"
+        ),
+        publishedAt = "2025-04-05T03:32:23Z",
+        url = "https://spacepolicyonline.com/news/framonauts-splash-down-near-california/",
+        summary = "The four crew members of Fram2, a private astronaut mission that circled the North and South Poles for the first time, is back home. Calling themselves “Framonauts,” they spent three-and-a-half […]"
+    ),
+    News(
+        id = 1,
+        title = "Framonauts Splash Down Near California",
+        author = "Marcia Smith",
+        image = Image(
+            name = "Dragon Recovery",
+            url = "https://spacepolicyonline.com/wp-content/uploads/2025/03/dragon-recovery-locations-CA-300x143.png"
+        ),
+        publishedAt = "2025-04-05T03:32:23Z",
+        url = "https://spacepolicyonline.com/news/framonauts-splash-down-near-california/",
+        summary = "The four crew members of Fram2, a private astronaut mission that circled the North and South Poles for the first time, is back home. Calling themselves “Framonauts,” they spent three-and-a-half […]"
+    ),
+    News(
+        id = 2,
+        title = "Framonauts Splash Down Near California",
+        author = "Marcia Smith",
+        image = Image(
+            name = "Dragon Recovery",
+            url = "https://spacepolicyonline.com/wp-content/uploads/2025/03/dragon-recovery-locations-CA-300x143.png"
+        ),
+        publishedAt = "2025-04-05T03:32:23Z",
+        url = "https://spacepolicyonline.com/news/framonauts-splash-down-near-california/",
+        summary = "The four crew members of Fram2, a private astronaut mission that circled the North and South Poles for the first time, is back home. Calling themselves “Framonauts,” they spent three-and-a-half […]"
+    ),
+    News(
         id = 30428,
         title = "Live coverage: SpaceX to launch 28 Starlink satellites on Falcon 9 rocket from Cape Canaveral",
         author = "Will Robinson-Smith",

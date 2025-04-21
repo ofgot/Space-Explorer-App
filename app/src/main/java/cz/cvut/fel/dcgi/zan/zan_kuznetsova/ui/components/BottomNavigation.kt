@@ -23,7 +23,7 @@ fun BottomNavigation(
                     Icon(
                         painter = painterResource(item.iconId),
                         contentDescription = item.contentDescription,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(22.dp)
                     )
                 },
                 label = { Text(item.label) },

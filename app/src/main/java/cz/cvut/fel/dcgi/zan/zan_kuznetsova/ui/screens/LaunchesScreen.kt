@@ -26,12 +26,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -63,15 +59,11 @@ fun LaunchesScreen(
     onQueryChange: (String) -> Unit,
     onDetailsClick: (String) -> Unit,
 ) {
-
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         topBar = {
-            LaunchesAppBar(
-                query = query,
-                onQueryChange = onQueryChange
-            )
+            LaunchesAppBar()
         },
         bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -81,7 +73,9 @@ fun LaunchesScreen(
             launches = launches,
             modifier = Modifier.padding(innerPadding),
             onDetailsClick = onDetailsClick,
-            snackbarHostState = snackbarHostState
+            snackbarHostState = snackbarHostState,
+            query = query,
+            onQueryChange = onQueryChange
         )
     }
 }
@@ -91,13 +85,26 @@ fun LaunchContent(
     launches: List<Launch>,
     modifier: Modifier = Modifier,
     onDetailsClick: (String) -> Unit,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    query: String,
+    onQueryChange: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        item {
+            OutlinedTextField(
+                value = query,
+                onValueChange = onQueryChange,
+                label = { Text("Search by name") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            )
+        }
+
         items(launches) { launch ->
             LaunchItem(
                 launch = launch,
@@ -269,61 +276,12 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LaunchesAppBar(
-    query: String,
-    onQueryChange: (String) -> Unit
-) {
+fun LaunchesAppBar() {
     Column {
 
         TopAppBar(
             title = { Text("Launches") }
         )
-        OutlinedTextField(
-            value = query,
-            onValueChange = onQueryChange,
-            label = { Text("Search by name") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        )
+
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewLaunchItem() {
-    val fakeLaunch = Launch(
-        id = "1",
-        name = "Falcon 9 | Starlink Group 7-2",
-        status = Status(name = "Success", abbrev = "S"),
-        net = "2025-04-01T15:30:00Z",
-        location = "Cape Canaveral",
-        webcastLive = "https://youtube.com",
-        image = Image(
-            name = "Falcon 9",
-            url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/spectrum_on_the_image_20250321072643.jpeg"
-        ),
-        agency = Agency(
-            name = "SpaceX",
-            abbrev = "SPX",
-            country = "USA",
-            description = "",
-            logo = null,
-            totalLaunchCount = 0,
-            successfulLaunches = 0,
-            failedLaunches = 0,
-            wikiUrl = "",
-            infoUrl = ""
-        ),
-        rocket = null
-    )
-
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    LaunchItem(
-        launch = fakeLaunch,
-        onDetailsClick = {},
-        snackbarHostState = snackbarHostState,
-        modifier = Modifier.padding(8.dp)
-    )
 }
