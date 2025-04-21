@@ -19,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -45,12 +46,17 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
 fun NewsScreen(
     mainBottomNavigationItems: List<BottomNavItem>,
     currentDestination: String?,
+    query: String,
     news: List<News>,
+    onQueryChange: (String) -> Unit,
     onDetailsClick: (Int) -> Unit
 ) {
 
     Scaffold(
-        topBar = { NewsAppBar() },
+        topBar = { NewsAppBar(
+            query = query,
+            onQueryChange = onQueryChange
+        ) },
         bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
@@ -181,10 +187,23 @@ fun Show(){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsAppBar() {
-    TopAppBar(
-        title = {
-            Text(text = "News")
-        },
-    )
+fun NewsAppBar(
+    query: String,
+    onQueryChange: (String) -> Unit
+) {
+    Column {
+        TopAppBar(
+            title = {
+                Text(text = "News")
+            },
+        )
+        OutlinedTextField(
+            value = query,
+            onValueChange = onQueryChange,
+            label = { Text("Search by name") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        )
+    }
 }

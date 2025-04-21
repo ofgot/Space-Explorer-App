@@ -7,7 +7,9 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.temporary.sampleNews
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.NewsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -17,6 +19,9 @@ class NewsViewModel(
 
     private val _newsState = MutableStateFlow<News?>(null)
     val newsState = _newsState.asStateFlow()
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     fun applyNews(id: Int) {
         viewModelScope.launch {
@@ -38,4 +43,14 @@ class NewsViewModel(
             repository.deleteAllNews()
         }
     }
+
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+
+    val filteredNews = combine(news, searchQuery) { list, query ->
+        if (query.isBlank()) list
+        else list.filter { it.title.contains(query, ignoreCase = true) }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
 }

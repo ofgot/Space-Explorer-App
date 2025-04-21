@@ -80,15 +80,17 @@ fun MainAppRouter(navController: NavHostController) {
                 val query by viewModel.searchQuery.collectAsState()
                 val filteredLaunches by viewModel.filteredLaunches.collectAsStateWithLifecycle()
 
-                LaunchedEffect(true) {
+                LaunchedEffect(Unit) {
                     if (filteredLaunches.isEmpty()) {
                         viewModel.downloadLaunches()
                     }
                 }
 
+                val route = currentBackStackEntry.value?.destination?.route.orEmpty()
+
                 LaunchesScreen(
                     mainBottomNavigationItems = mainBottomNavItem,
-                    currentDestination = currentBackStackEntry.value?.destination?.route,
+                    currentDestination = route,
                     query = query,
                     launches = filteredLaunches,
                     onQueryChange = viewModel::setSearchQuery,
@@ -117,22 +119,28 @@ fun MainAppRouter(navController: NavHostController) {
         ) {
             composable<NewsRoutes.News> { backStackEntry ->
                 val viewModel = backStackEntry.sharedKoinNavViewModel<NewsViewModel>(navController)
-                val state by viewModel.news.collectAsStateWithLifecycle()
+                val query by viewModel.searchQuery.collectAsState()
+                val filteredNews by viewModel.filteredNews.collectAsStateWithLifecycle()
 
-                LaunchedEffect(true) {
-                    if (state.isEmpty()) {
+                LaunchedEffect(Unit) {
+                    if (filteredNews.isEmpty()) {
                         viewModel.downloadNews()
                     }
                 }
 
+                val route = currentBackStackEntry.value?.destination?.route.orEmpty()
+
                 NewsScreen(
                     mainBottomNavigationItems = mainBottomNavItem,
-                    currentDestination = currentBackStackEntry.value?.destination?.route,
-                    news = state,
+                    currentDestination = route,
+                    query = query,
+                    onQueryChange = viewModel::setSearchQuery,
+                    news = filteredNews,
                     onDetailsClick = { id ->
                         viewModel.applyNews(id)
                         navController.navigate(NewsRoutes.NewsDetails)
                     }
+
                 )
             }
 

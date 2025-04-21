@@ -21,6 +21,9 @@ class LaunchViewModel(
     private val _launchState = MutableStateFlow<Launch?>(null)
     val launchState = _launchState.asStateFlow()
 
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
     fun applyLaunch(id: String) {
         viewModelScope.launch {
             _launchState.value = repository.getLaunchesById(id)
@@ -42,10 +45,6 @@ class LaunchViewModel(
         }
     }
 
-
-
-    private val _searchQuery = MutableStateFlow("")
-    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
