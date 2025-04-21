@@ -1,6 +1,5 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel
 
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.News

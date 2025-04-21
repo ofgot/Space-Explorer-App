@@ -19,14 +19,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.room.Query
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Agency
@@ -59,14 +65,27 @@ fun LaunchesScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
+    var query by remember { mutableStateOf("") }
+
+    val filteredLaunches by remember(query, launches) {
+        derivedStateOf {
+            if (query.isBlank()) launches
+            else launches.filter { it.name.contains(query, ignoreCase = true) }
+        }
+    }
+
     Scaffold(
-        topBar = { LaunchesAppBar() },
+        topBar = {
+            Column {
+                LaunchesAppBar(query, onQueryChange = { query = it })
+            }
+        },
         bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         LaunchContent(
-            launches = launches,
+            launches = filteredLaunches,
             modifier = Modifier.padding(innerPadding),
             onDetailsClick = onDetailsClick,
             snackbarHostState = snackbarHostState
@@ -163,18 +182,16 @@ fun LaunchItem(
             Row(
 
             ) {
-                IconButton(
-                    onClick = {
-                        scope.launch {
-                            openUrl(
-                                snackbarHostState = snackbarHostState,
-                                context = context,
-                                url = launch.webcastLive,
-                                message = "Video not available"
-                            )
-                        }
+                IconButton(onClick = {
+                    scope.launch {
+                        openUrl(
+                            snackbarHostState = snackbarHostState,
+                            context = context,
+                            url = launch.webcastLive,
+                            message = "Video not available"
+                        )
                     }
-                ) {
+                }) {
                     Icon(
                         painter = painterResource(R.drawable.play),
                         contentDescription = "Watch video",
@@ -208,12 +225,10 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
     val isPast = true
 
     Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
+            horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()
         ) {
             SingleLineText(
                 text = "T${if (isPast) "+" else "-"}",
@@ -221,11 +236,11 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(end = 4.dp)
             )
             SingleLineText(
-                text = "${days.toString().padStart(2, '0')} : " +
-                        "${hours.toString().padStart(2, '0')} : " +
-                        "${minutes.toString().padStart(2, '0')} : " +
-                        "${seconds.toString().padStart(2, '0')}",
-                style = MaterialTheme.typography.headlineMedium
+                text = "${days.toString().padStart(2, '0')} : " + "${
+                    hours.toString().padStart(2, '0')
+                } : " + "${minutes.toString().padStart(2, '0')} : " + "${
+                    seconds.toString().padStart(2, '0')
+                }", style = MaterialTheme.typography.headlineMedium
             )
         }
         Row(
@@ -235,19 +250,23 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
                 .padding(horizontal = 20.dp)
         ) {
             SingleLineText(
-                "Days", MaterialTheme.typography.bodyMedium,
+                "Days",
+                MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 20.dp)
             )
             SingleLineText(
-                "Hours", MaterialTheme.typography.bodyMedium,
+                "Hours",
+                MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 20.dp)
             )
             SingleLineText(
-                "Mins", MaterialTheme.typography.bodyMedium,
+                "Mins",
+                MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 20.dp)
             )
             SingleLineText(
-                "Secs", MaterialTheme.typography.bodyMedium,
+                "Secs",
+                MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 20.dp)
             )
 
@@ -257,12 +276,24 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LaunchesAppBar() {
-    TopAppBar(
-        title = {
+fun LaunchesAppBar(
+    query: String,
+    onQueryChange: (String) -> Unit
+) {
+    Column {
+        TopAppBar(title = {
             Text(text = "Launches")
-        }
-    )
+        })
+
+        OutlinedTextField(
+            value = query,
+            onValueChange = onQueryChange,
+            label = { Text("Search by name") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        )
+    }
 }
 
 @Preview(showBackground = true)

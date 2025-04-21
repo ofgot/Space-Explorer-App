@@ -1,6 +1,5 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,7 +18,6 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsDetailsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.SettingsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchViewModel
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsDetailsViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
 
 
