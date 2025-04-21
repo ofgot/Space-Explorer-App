@@ -1,4 +1,4 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local
 
 data class News(
     val id: Int = 0,

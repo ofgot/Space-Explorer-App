@@ -1,7 +1,7 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.datasource.DBDataSource
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource.DBDataSource
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
 
 class NewsRepository (
     private val newsDBDataSource: DBDataSource<News, Int>

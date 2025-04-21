@@ -1,11 +1,11 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.temporary
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Agency
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Launch
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Rocket
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.RocketDetails
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Status
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Rocket
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.RocketDetails
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Status
 
 
 val sampleLaunches = listOf(

@@ -1,13 +1,13 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.datasource
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource
 
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.LaunchDao
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.LaunchEntity
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Agency
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Launch
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Rocket
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.RocketDetails
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Status
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Agency
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Rocket
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.RocketDetails
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Status
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,25 +15,24 @@ import kotlinx.coroutines.flow.map
 
 class LaunchDBDataSourceImpl(
     private val launchDao: LaunchDao
-) : LaunchDBDataSource {
+) : DBDataSource<Launch, String> {
 
-    override fun getAllLaunches(): Flow<List<Launch>> =
+    override fun getAll(): Flow<List<Launch>> =
         launchDao.getAllLaunches().map { entities ->
             entities.map { it.toLaunch() }
         }
 
-    override suspend fun getLaunchById(id: String): Launch =
+    override suspend fun getById(id: String): Launch =
         launchDao.getLaunchForId(id).toLaunch()
 
-    override suspend fun insertLaunches(launches: List<Launch>) =
+    override suspend fun insertAll(data: List<Launch>) =
         launchDao.insertLaunches(
-            launches.map {
+            data.map {
                 it.toLaunchEntity()
             }
         )
 
-
-    override suspend fun deleteAllLaunches() =
+    override suspend fun deleteAll() =
         launchDao.deleteAllLaunches()
 }
 
@@ -74,6 +73,7 @@ fun Launch.toLaunchEntity() = LaunchEntity(
     rocketMaidenFlight = rocket?.rocketDetails?.maidenFlight ?: "",
     rocketSuccessfulLaunches = rocket?.rocketDetails?.successfulLaunches ?: 0,
     rocketFailedLaunches = rocket?.rocketDetails?.failedLaunches ?: 0,
+    comment = comment
 )
 
 fun LaunchEntity.toLaunch() = Launch(
@@ -112,6 +112,7 @@ fun LaunchEntity.toLaunch() = Launch(
             successfulLaunches = rocketSuccessfulLaunches,
             failedLaunches = rocketFailedLaunches
         )
-    )
+    ),
+    comment = comment
 )
 

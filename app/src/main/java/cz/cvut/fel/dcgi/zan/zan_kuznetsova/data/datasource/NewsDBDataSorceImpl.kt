@@ -1,8 +1,8 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.datasource
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource
 
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.NewsDao
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.NewsEntity
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

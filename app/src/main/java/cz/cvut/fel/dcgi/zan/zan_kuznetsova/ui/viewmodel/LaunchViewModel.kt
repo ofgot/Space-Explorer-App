@@ -2,8 +2,8 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.temporary.sampleLaunches
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleLaunches
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.LaunchRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

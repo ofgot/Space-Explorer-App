@@ -2,8 +2,8 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.News
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.temporary.sampleNews
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleNews
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.NewsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

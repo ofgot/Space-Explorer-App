@@ -1,22 +1,22 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.datasource.LaunchDBDataSource
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource.DBDataSource
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
 
 class LaunchRepository(
-    private val launchDBDataSource: LaunchDBDataSource,
+    private val launchDBDataSource: DBDataSource<Launch, String>,
 ) {
-    fun getAllLaunches() = launchDBDataSource.getAllLaunches()
+    fun getAllLaunches() = launchDBDataSource.getAll()
 
     suspend fun insertLaunches(launches: List<Launch>) {
-        launchDBDataSource.insertLaunches(launches)
+        launchDBDataSource.insertAll(launches)
     }
 
     suspend fun deleteAllLaunches() {
-        launchDBDataSource.deleteAllLaunches()
+        launchDBDataSource.deleteAll()
     }
 
     suspend fun getLaunchesById(id: String) =
-        launchDBDataSource.getLaunchById(id)
+        launchDBDataSource.getById(id)
 
 }

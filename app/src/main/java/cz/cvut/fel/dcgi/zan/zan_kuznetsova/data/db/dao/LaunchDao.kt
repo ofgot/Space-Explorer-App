@@ -20,4 +20,7 @@ interface LaunchDao {
 
     @Query("DELETE FROM launches")
     suspend fun deleteAllLaunches()
+
+    @Query("UPDATE launches SET comment = :comment WHERE id = :id")
+    suspend fun updateComment(id: String, comment: String)
 }

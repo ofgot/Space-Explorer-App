@@ -1,6 +1,6 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.datasource
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
 
 import kotlinx.coroutines.flow.Flow
 

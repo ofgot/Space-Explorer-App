@@ -1,7 +1,7 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.temporary
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Image
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
 
 val sampleNews = listOf(
     News(

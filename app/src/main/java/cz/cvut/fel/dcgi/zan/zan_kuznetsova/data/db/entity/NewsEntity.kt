@@ -3,7 +3,7 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Image
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Image
 
 @Entity(tableName = "news")
 data class NewsEntity(

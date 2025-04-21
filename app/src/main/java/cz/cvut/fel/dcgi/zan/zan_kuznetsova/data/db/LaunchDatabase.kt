@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.LaunchDao
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.LaunchEntity
 
-@Database(entities = [LaunchEntity::class], version = 1)
+@Database(entities = [LaunchEntity::class], version = 2)
 abstract class LaunchDatabase : RoomDatabase() {
 
     abstract fun launchDao(): LaunchDao
