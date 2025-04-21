@@ -2,6 +2,7 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -75,18 +76,22 @@ fun MainAppRouter(navController: NavHostController) {
         ) {
             composable<LaunchesRoutes.Launches> { backStackEntry ->
                 val viewModel = backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
-                val state by viewModel.launches.collectAsStateWithLifecycle()
+
+                val query by viewModel.searchQuery.collectAsState()
+                val filteredLaunches by viewModel.filteredLaunches.collectAsStateWithLifecycle()
 
                 LaunchedEffect(true) {
-                    if (state.isEmpty()) {
+                    if (filteredLaunches.isEmpty()) {
                         viewModel.downloadLaunches()
                     }
                 }
 
                 LaunchesScreen(
-                    mainBottomNavItem,
-                    currentBackStackEntry.value?.destination?.route,
-                    state,
+                    mainBottomNavigationItems = mainBottomNavItem,
+                    currentDestination = currentBackStackEntry.value?.destination?.route,
+                    query = query,
+                    launches = filteredLaunches,
+                    onQueryChange = viewModel::setSearchQuery,
                     onDetailsClick = { id ->
                         viewModel.applyLaunch(id)
                         navController.navigate(LaunchesRoutes.LaunchDetails)

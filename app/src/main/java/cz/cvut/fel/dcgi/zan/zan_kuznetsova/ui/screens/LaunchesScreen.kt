@@ -41,7 +41,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.room.Query
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.local.Agency
@@ -59,33 +58,27 @@ import kotlinx.coroutines.launch
 fun LaunchesScreen(
     mainBottomNavigationItems: List<BottomNavItem>,
     currentDestination: String?,
+    query: String,
     launches: List<Launch>,
+    onQueryChange: (String) -> Unit,
     onDetailsClick: (String) -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    var query by remember { mutableStateOf("") }
-
-    val filteredLaunches by remember(query, launches) {
-        derivedStateOf {
-            if (query.isBlank()) launches
-            else launches.filter { it.name.contains(query, ignoreCase = true) }
-        }
-    }
-
     Scaffold(
         topBar = {
-            Column {
-                LaunchesAppBar(query, onQueryChange = { query = it })
-            }
+            LaunchesAppBar(
+                query = query,
+                onQueryChange = onQueryChange
+            )
         },
         bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         LaunchContent(
-            launches = filteredLaunches,
+            launches = launches,
             modifier = Modifier.padding(innerPadding),
             onDetailsClick = onDetailsClick,
             snackbarHostState = snackbarHostState
@@ -281,10 +274,10 @@ fun LaunchesAppBar(
     onQueryChange: (String) -> Unit
 ) {
     Column {
-        TopAppBar(title = {
-            Text(text = "Launches")
-        })
 
+        TopAppBar(
+            title = { Text("Launches") }
+        )
         OutlinedTextField(
             value = query,
             onValueChange = onQueryChange,
