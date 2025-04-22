@@ -10,7 +10,6 @@ data class Launch(
     val image: Image?,     // ASK ABOUT THIS
     val agency: Agency?,
     val rocket: Rocket?,
-    val comment: String = ""
 )
 
 data class Status(

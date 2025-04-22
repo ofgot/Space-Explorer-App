@@ -20,4 +20,11 @@ interface NewsDao {
 
     @Query("DELETE FROM news")
     suspend fun deleteAllNews()
+
+    @Query("UPDATE news SET comment = :comment WHERE id = :id")
+    suspend fun updateComment(id: Int, comment: String)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM news)")
+    suspend fun hasAnyNews(): Boolean
+
 }

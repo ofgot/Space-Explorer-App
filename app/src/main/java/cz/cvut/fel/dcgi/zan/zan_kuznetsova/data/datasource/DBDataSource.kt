@@ -11,4 +11,8 @@ interface DBDataSource<T, ID> {
     suspend fun insertAll(data: List<T>)
 
     suspend fun deleteAll()
+
+    suspend fun updateComment(id: Int, comment: String)
+
+    suspend fun hasAnyNews(): Boolean
 }

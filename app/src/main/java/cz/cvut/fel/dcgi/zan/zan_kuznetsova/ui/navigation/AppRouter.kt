@@ -4,7 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -108,7 +111,7 @@ fun MainAppRouter(navController: NavHostController) {
                 launchState?.let { state ->
                     LaunchDetailsScreen(
                         launch = state,
-                        onBackClick = { navController.popBackStack() }
+                        onBackClick = { navController.popBackStack() },
                     )
                 }
             }
@@ -124,7 +127,7 @@ fun MainAppRouter(navController: NavHostController) {
 
                 LaunchedEffect(Unit) {
                     if (filteredNews.isEmpty()) {
-                        viewModel.downloadNews()
+                        viewModel.checkAndDownloadNewsIfNeeded()
                     }
                 }
 
@@ -148,10 +151,26 @@ fun MainAppRouter(navController: NavHostController) {
                 val viewModel = backStackEntry.sharedKoinNavViewModel<NewsViewModel>(navController)
                 val newsState by viewModel.newsState.collectAsStateWithLifecycle()
 
+                // Comment
+                val comment by viewModel.commentState.collectAsStateWithLifecycle()
+                val isEditing by viewModel.isEditing.collectAsStateWithLifecycle()
+
+                LaunchedEffect(newsState) {
+                    viewModel.setEditing(false)
+                }
+
                 newsState?.let {
                     NewsDetailsScreen(
                         news = it,
-                        onBackClick = { navController.popBackStack() })
+                        onBackClick = { navController.popBackStack() },
+
+                        // Comment
+                        onCommentChange = viewModel::onCommentChange,
+                        onSaveClick = viewModel::saveComment,
+                        comment = comment,
+                        isEditing = isEditing,
+                        onEditToggle = viewModel::toggleEditing,
+                    )
                 }
             }
         }

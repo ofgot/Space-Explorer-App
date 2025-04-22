@@ -1,6 +1,5 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.di
 
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource.LaunchDBDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource.LaunchDBDataSourceImpl
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.LaunchDatabase
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.NewsDatabase

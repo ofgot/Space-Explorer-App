@@ -1,32 +1,42 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -41,7 +51,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LaunchDetailsScreen(
     launch: Launch,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -54,7 +64,7 @@ fun LaunchDetailsScreen(
         LaunchDetailsContent(
             launch,
             modifier =  Modifier.padding(innerPadding),
-            snackbarHostState = snackbarHostState
+            snackbarHostState = snackbarHostState,
         )
     }
 }
@@ -63,7 +73,7 @@ fun LaunchDetailsScreen(
 fun LaunchDetailsContent(
     launch: Launch,
     modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
 ) {
     Column (
         modifier = modifier
@@ -72,7 +82,7 @@ fun LaunchDetailsContent(
     ) {
         LaunchDetailsItem(
             launch,
-            modifier = Modifier.padding(top = 4.dp),
+            modifier = Modifier.padding(top = 4.dp).wrapContentHeight(),
             snackbarHostState = snackbarHostState
         )
     }

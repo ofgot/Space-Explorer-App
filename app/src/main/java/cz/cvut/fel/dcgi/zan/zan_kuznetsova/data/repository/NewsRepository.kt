@@ -17,4 +17,9 @@ class NewsRepository (
     suspend fun getNewsById(id: Int) =
         newsDBDataSource.getById(id)
 
+    suspend fun updateComment(id: Int, comment: String) {
+        newsDBDataSource.updateComment(id, comment)
+    }
+
+    suspend fun hasNews(): Boolean = newsDBDataSource.hasAnyNews()
 }

@@ -27,6 +27,12 @@ class NewsDBDataSourceImpl(
 
     override suspend fun deleteAll() =
         newsDao.deleteAllNews()
+
+    override suspend fun updateComment(id: Int, comment: String) {
+        newsDao.updateComment(id, comment)
+    }
+
+    override suspend fun hasAnyNews(): Boolean = newsDao.hasAnyNews()
 }
 
 // Mapping
@@ -38,7 +44,10 @@ fun News.toNewsEntity(): NewsEntity = NewsEntity(
     image = image,
     publishedAt = publishedAt,
     url = url,
-    summary = summary
+    summary = summary,
+
+    // Comment
+    comment = comment,
 )
 
 fun NewsEntity.toNews(): News = News(
@@ -48,5 +57,8 @@ fun NewsEntity.toNews(): News = News(
     image = image,
     publishedAt = publishedAt,
     url = url,
-    summary = summary
+    summary = summary,
+
+    // Comment
+    comment = comment
 )

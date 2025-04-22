@@ -17,24 +17,38 @@ class NewsViewModel(
     private val repository: NewsRepository
 ) : ViewModel() {
 
+    // State
+
     private val _newsState = MutableStateFlow<News?>(null)
     val newsState = _newsState.asStateFlow()
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    fun applyNews(id: Int) {
-        viewModelScope.launch {
-            _newsState.value = repository.getNewsById(id)
-        }
-    }
+    private val _commentState = MutableStateFlow("")
+    val commentState = _commentState.asStateFlow()
+
+    private val _isEditing = MutableStateFlow(false)
+    val isEditing = _isEditing.asStateFlow()
+
+    // Data
 
     val news = repository.getAllNews()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     fun downloadNews() {
         viewModelScope.launch {
-            repository.insertNews(sampleNews)
+            if (!repository.hasNews()) {
+                repository.insertNews(sampleNews)
+            }
+        }
+    }
+
+    fun checkAndDownloadNewsIfNeeded() {
+        viewModelScope.launch {
+            if (!repository.hasNews()) {
+                repository.insertNews(sampleNews)
+            }
         }
     }
 
@@ -44,6 +58,8 @@ class NewsViewModel(
         }
     }
 
+    // Searching
+
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
     }
@@ -52,5 +68,39 @@ class NewsViewModel(
         if (query.isBlank()) list
         else list.filter { it.title.contains(query, ignoreCase = true) }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    // Comment
+
+    fun applyNews(id: Int) {
+        viewModelScope.launch {
+            val news = repository.getNewsById(id)
+            _newsState.value = news
+            _commentState.value = news.comment
+        }
+    }
+
+    fun onCommentChange(value: String) {
+        _commentState.value = value
+    }
+
+    fun saveComment() {
+        val currentNews = _newsState.value ?: return
+        val updatedComment = _commentState.value
+
+        viewModelScope.launch {
+            repository.updateComment(currentNews.id, updatedComment)
+            _newsState.value = currentNews.copy(comment = updatedComment)
+        }
+    }
+
+    // Editing
+
+    fun toggleEditing() {
+        _isEditing.value = !_isEditing.value
+    }
+
+    fun setEditing(value: Boolean) {
+        _isEditing.value = value
+    }
 
 }

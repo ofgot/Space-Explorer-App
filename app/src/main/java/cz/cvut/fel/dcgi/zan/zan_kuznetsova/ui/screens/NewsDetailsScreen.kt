@@ -2,27 +2,38 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,11 +52,19 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.MoreLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.openUrl
 import kotlinx.coroutines.launch
+import org.w3c.dom.Comment
 
 @Composable
 fun NewsDetailsScreen(
     news: News,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onCommentChange: (String) -> Unit,
+    onSaveClick: () -> Unit,
+
+    // Comment
+    comment: String,
+    isEditing: Boolean,
+    onEditToggle: () -> Unit
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -58,29 +77,49 @@ fun NewsDetailsScreen(
         NewsDetailsContent(
             news,
             modifier =  Modifier.padding(innerPadding),
-            snackbarHostState = snackbarHostState
+            snackbarHostState = snackbarHostState,
+
+            comment = comment,
+            onCommentChange = onCommentChange,
+            onSaveClick = onSaveClick,
+            isEditing = isEditing,
+            onEditToggle = onEditToggle,
         )
     }
 }
-
 
 
 @Composable
 fun NewsDetailsContent(
     news: News,
     modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+
+    // Comment
+    comment: String,
+    onCommentChange: (String) -> Unit,
+    onSaveClick: () -> Unit,
+    isEditing: Boolean,
+    onEditToggle: () -> Unit
 ) {
-    Column (
+    LazyColumn (
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        NewsDetailsItem(
-            news,
-            modifier = Modifier.padding(top = 4.dp),
-            snackbarHostState = snackbarHostState
-        )
+        item {
+            NewsDetailsItem(
+                news,
+                comment = comment,
+                modifier = Modifier.padding(top = 4.dp),
+
+                snackbarHostState = snackbarHostState,
+                onCommentChange = onCommentChange,
+                onSaveClick = onSaveClick,
+                isEditing = isEditing,
+                onEditToggle = onEditToggle,
+            )
+        }
     }
 }
 
@@ -88,9 +127,16 @@ fun NewsDetailsContent(
 fun NewsDetailsItem(
     news: News,
     modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+
+    // Comment
+    comment: String,
+    onCommentChange: (String) -> Unit,
+    onSaveClick: () -> Unit,
+
+    isEditing: Boolean,
+    onEditToggle: () -> Unit
 ) {
-    val scrollableColumnState = rememberScrollState()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -98,8 +144,8 @@ fun NewsDetailsItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(scrollableColumnState)
     ) {
+
         MoreLineText(
             text = news.title,
             style = MaterialTheme.typography.titleLarge,
@@ -157,28 +203,36 @@ fun NewsDetailsItem(
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(start = 5.dp)
             )
+
         }
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun NewsDetailsScreenPreview() {
-    val newsItem = News(
-        id = 30429,
-        title = "Framonauts Splash Down Near California",
-        author = "Marcia Smith",
-        image = Image(
-            name = "Dragon Recovery",
-            url = "https://spacepolicyonline.com/wp-content/uploads/2025/03/dragon-recovery-locations-CA-300x143.png"
-        ),
-        publishedAt = "2025-04-05T03:32:23Z",
-        url = "https://spacepolicyonline.com/news/framonauts-splash-down-near-california/",
-        summary = "The four crew members of Fram2, a private astronaut mission that circled the North and South Poles for the first time, is back home. Calling themselves “Framonauts,” they spent three-and-a-half […]"
+    HorizontalDivider(thickness = 2.dp)
+
+    SingleLineText(
+        text = "Comment",
+        style = MaterialTheme.typography.titleLarge,
+        modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp)
     )
 
-    NewsDetailsScreen(
-        news = newsItem,
-        onBackClick = {}
-    )
+    if (isEditing) {
+        OutlinedTextField(
+            value = comment,
+            onValueChange = onCommentChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(onClick = {
+            onSaveClick()
+            onEditToggle()
+        }) {
+            Text("Save comment")
+        }
+    } else {
+        Text(
+            text = comment.ifBlank { "No comment yet. Tap to add one." },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onEditToggle() },
+        )
+    }
 }

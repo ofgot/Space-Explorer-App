@@ -34,6 +34,15 @@ class LaunchDBDataSourceImpl(
 
     override suspend fun deleteAll() =
         launchDao.deleteAllLaunches()
+
+    override suspend fun updateComment(id: Int, comment: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun hasAnyNews(): Boolean {
+        TODO("Not yet implemented")
+    }
+
 }
 
 
@@ -73,7 +82,6 @@ fun Launch.toLaunchEntity() = LaunchEntity(
     rocketMaidenFlight = rocket?.rocketDetails?.maidenFlight ?: "",
     rocketSuccessfulLaunches = rocket?.rocketDetails?.successfulLaunches ?: 0,
     rocketFailedLaunches = rocket?.rocketDetails?.failedLaunches ?: 0,
-    comment = comment
 )
 
 fun LaunchEntity.toLaunch() = Launch(
@@ -113,6 +121,5 @@ fun LaunchEntity.toLaunch() = Launch(
             failedLaunches = rocketFailedLaunches
         )
     ),
-    comment = comment
 )
 

@@ -41,7 +41,4 @@ data class LaunchEntity(
     val rocketMaidenFlight: String,
     val rocketSuccessfulLaunches: Int,
     val rocketFailedLaunches: Int,
-
-    // Comment
-    val comment: String,
 )

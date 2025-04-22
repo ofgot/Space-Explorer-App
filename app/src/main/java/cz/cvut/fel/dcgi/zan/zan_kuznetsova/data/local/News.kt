@@ -8,4 +8,7 @@ data class News(
     val publishedAt: String = "",
     val url: String = "",
     val summary: String = "",
+
+    // Comment
+    val comment: String = ""
 )
