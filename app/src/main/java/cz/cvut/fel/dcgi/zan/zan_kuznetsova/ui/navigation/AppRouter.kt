@@ -1,14 +1,10 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -36,6 +32,7 @@ fun AppRouter() {
         navController = navController,
     )
 }
+
 
 @Composable
 fun MainAppRouter(navController: NavHostController) {
@@ -81,7 +78,8 @@ fun MainAppRouter(navController: NavHostController) {
             startDestination = LaunchesRoutes.Launches
         ) {
             composable<LaunchesRoutes.Launches> { backStackEntry ->
-                val viewModel = backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
+                val viewModel =
+                    backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
 
                 val query by viewModel.searchQuery.collectAsState()
                 val filteredLaunches by viewModel.filteredLaunches.collectAsStateWithLifecycle()
@@ -108,7 +106,8 @@ fun MainAppRouter(navController: NavHostController) {
             }
 
             composable<LaunchesRoutes.LaunchDetails> { backStackEntry ->
-                val viewModel = backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
+                val viewModel =
+                    backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
                 val launchState by viewModel.launchState.collectAsStateWithLifecycle()
 
                 launchState?.let { state ->
@@ -166,15 +165,13 @@ fun MainAppRouter(navController: NavHostController) {
                         news = it,
                         onBackClick = {
                             navController.popBackStack()
-                            viewModel.setEditing(false)
+                            viewModel.onEvent(NewsEvent.OnEditingFinished)
                         },
 
                         // Comment
-                        onCommentChange = viewModel::onCommentChange,
-                        onSaveClick = viewModel::saveComment,
                         comment = comment,
                         isEditing = isEditing,
-                        onEditToggle = viewModel::toggleEditing,
+                        onClick = viewModel::onEvent,
                     )
                 }
             }

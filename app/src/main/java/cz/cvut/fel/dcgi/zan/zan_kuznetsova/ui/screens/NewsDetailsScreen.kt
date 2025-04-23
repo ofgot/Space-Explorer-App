@@ -51,6 +51,7 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.MoreLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.openUrl
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
 import kotlinx.coroutines.launch
 import org.w3c.dom.Comment
 
@@ -58,13 +59,11 @@ import org.w3c.dom.Comment
 fun NewsDetailsScreen(
     news: News,
     onBackClick: () -> Unit,
-    onCommentChange: (String) -> Unit,
-    onSaveClick: () -> Unit,
 
     // Comment
     comment: String,
     isEditing: Boolean,
-    onEditToggle: () -> Unit
+    onClick: (NewsEvent) -> Unit
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -80,10 +79,8 @@ fun NewsDetailsScreen(
             snackbarHostState = snackbarHostState,
 
             comment = comment,
-            onCommentChange = onCommentChange,
-            onSaveClick = onSaveClick,
             isEditing = isEditing,
-            onEditToggle = onEditToggle,
+            onClick = onClick,
         )
     }
 }
@@ -97,10 +94,8 @@ fun NewsDetailsContent(
 
     // Comment
     comment: String,
-    onCommentChange: (String) -> Unit,
-    onSaveClick: () -> Unit,
     isEditing: Boolean,
-    onEditToggle: () -> Unit
+    onClick: (NewsEvent) -> Unit
 ) {
     LazyColumn (
         modifier = modifier
@@ -114,10 +109,8 @@ fun NewsDetailsContent(
                 modifier = Modifier.padding(top = 4.dp),
 
                 snackbarHostState = snackbarHostState,
-                onCommentChange = onCommentChange,
-                onSaveClick = onSaveClick,
                 isEditing = isEditing,
-                onEditToggle = onEditToggle,
+                onClick = onClick,
             )
         }
     }
@@ -131,11 +124,9 @@ fun NewsDetailsItem(
 
     // Comment
     comment: String,
-    onCommentChange: (String) -> Unit,
-    onSaveClick: () -> Unit,
-
     isEditing: Boolean,
-    onEditToggle: () -> Unit
+
+    onClick: (NewsEvent) -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -170,13 +161,17 @@ fun NewsDetailsItem(
         MoreLineText(
             text = news.summary,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
             maxLine = Int.MAX_VALUE,
             textAlign = TextAlign.Center,
         )
 
         Row (
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ){
@@ -212,19 +207,25 @@ fun NewsDetailsItem(
     SingleLineText(
         text = "Comment",
         style = MaterialTheme.typography.titleLarge,
-        modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 5.dp)
     )
 
     if (isEditing) {
         OutlinedTextField(
             value = comment,
-            onValueChange = onCommentChange,
+            onValueChange = { newComment ->
+                onClick(NewsEvent.OnCommentChange(newComment))
+            },
             modifier = Modifier.fillMaxWidth()
         )
-        Button(onClick = {
-            onSaveClick()
-            onEditToggle()
-        }) {
+        Button(
+            onClick = {
+                onClick(NewsEvent.OnSaveComment)
+                onClick(NewsEvent.OnToggleEditing)
+            }
+        ) {
             Text("Save comment")
         }
     } else {
@@ -232,7 +233,7 @@ fun NewsDetailsItem(
             text = comment.ifBlank { "No comment yet. Tap to add one." },
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onEditToggle() },
+                .clickable { onClick(NewsEvent.OnToggleEditing) },
         )
     }
 }

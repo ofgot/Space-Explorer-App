@@ -104,6 +104,11 @@ class NewsViewModel(
             is NewsEvent.OnSearchQueryChange -> setSearchQuery(event.query)
             is NewsEvent.OnDownloadRequested -> downloadNews()
             is NewsEvent.OnClearDatabase -> clearDatabase()
+
+            is NewsEvent.OnCommentChange -> onCommentChange(event.value)
+            is NewsEvent.OnSaveComment -> saveComment()
+            is NewsEvent.OnToggleEditing -> toggleEditing()
+            is NewsEvent.OnEditingFinished -> setEditing(false)
         }
     }
 
