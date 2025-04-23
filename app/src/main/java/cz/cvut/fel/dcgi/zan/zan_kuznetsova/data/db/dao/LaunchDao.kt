@@ -20,4 +20,7 @@ interface LaunchDao {
 
     @Query("DELETE FROM launches")
     suspend fun deleteAllLaunches()
+
+    @Query("SELECT EXISTS(SELECT 1 FROM launches)")
+    suspend fun hasAnyLaunches(): Boolean
 }

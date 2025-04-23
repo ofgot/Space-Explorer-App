@@ -39,10 +39,7 @@ class LaunchDBDataSourceImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun hasAnyNews(): Boolean {
-        TODO("Not yet implemented")
-    }
-
+    override suspend fun hasAnyData(): Boolean = launchDao.hasAnyLaunches()
 }
 
 

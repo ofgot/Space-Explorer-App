@@ -44,6 +44,7 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.formatLaunchDate
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.openUrl
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -52,7 +53,7 @@ fun LaunchesScreen(
     currentDestination: String?,
     query: String,
     launches: List<Launch>,
-    onQueryChange: (String) -> Unit,
+    onEvent: (LaunchesEvent) -> Unit,
     onDetailsClick: (String) -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -71,7 +72,7 @@ fun LaunchesScreen(
             onDetailsClick = onDetailsClick,
             snackbarHostState = snackbarHostState,
             query = query,
-            onQueryChange = onQueryChange
+            onEvent = onEvent,
         )
     }
 }
@@ -83,7 +84,7 @@ fun LaunchContent(
     onDetailsClick: (String) -> Unit,
     snackbarHostState: SnackbarHostState,
     query: String,
-    onQueryChange: (String) -> Unit
+    onEvent: (LaunchesEvent) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -93,7 +94,7 @@ fun LaunchContent(
         item {
             OutlinedTextField(
                 value = query,
-                onValueChange = onQueryChange,
+                onValueChange = {onEvent(LaunchesEvent.OnSearchQueryChange(it))},
                 label = { Text("Search by name") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -107,9 +108,7 @@ fun LaunchContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
-                onDetailsClick = {
-                    onDetailsClick(launch.id)
-                },
+                onDetailsClick = { onDetailsClick(launch.id) },
                 snackbarHostState = snackbarHostState
             )
         }

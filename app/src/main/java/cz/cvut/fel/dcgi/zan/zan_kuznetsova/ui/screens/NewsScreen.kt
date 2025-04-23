@@ -43,6 +43,7 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.MoreLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.Routes
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
 
 @Composable
 fun NewsScreen(
@@ -50,8 +51,8 @@ fun NewsScreen(
     currentDestination: String?,
     query: String,
     news: List<News>,
-    onQueryChange: (String) -> Unit,
-    onDetailsClick: (Int) -> Unit
+    onDetailsClick: (Int) -> Unit,
+    onEvent: (NewsEvent) -> Unit
 ) {
 
     Scaffold(
@@ -66,7 +67,7 @@ fun NewsScreen(
             modifier = Modifier.padding(innerPadding),
             onDetailsClick = onDetailsClick,
             query = query,
-            onQueryChange = onQueryChange
+            onEvent = onEvent,
         )
     }
 }
@@ -78,7 +79,7 @@ fun NewsContent(
     onDetailsClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     query: String,
-    onQueryChange: (String) -> Unit,
+    onEvent: (NewsEvent) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -88,7 +89,7 @@ fun NewsContent(
         item {
             OutlinedTextField(
                 value = query,
-                onValueChange = onQueryChange,
+                onValueChange = { onEvent(NewsEvent.OnSearchQueryChange(it)) },
                 label = { Text("Search news...") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -104,7 +105,7 @@ fun NewsContent(
                     .padding(vertical = 8.dp),
                 onDetailsClick = {
                     onDetailsClick(singleNews.id)
-                }
+                },
             )
         }
     }
@@ -197,49 +198,4 @@ fun NewsAppBar() {
         },
     )
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun NewsScreenPreview() {
-
-    val mainBottomNavItem = remember {
-        listOf(
-            BottomNavItem(
-                route = Routes.LaunchesGraph,
-                label = "Launches",
-                iconId = R.drawable.rocket,
-                contentDescription = "Launches nav bar item",
-                onClick = {
-                }
-            ),
-            BottomNavItem(
-                route = Routes.News,
-                label = "News",
-                iconId = R.drawable.news,
-                contentDescription = "News nav bar item",
-                onClick = {
-                }
-            ),
-            BottomNavItem(
-                route = Routes.Settings,
-                label = "Settings",
-                iconId = R.drawable.settings,
-                contentDescription = "Settings nav bar item",
-                onClick = {
-                }
-            )
-        )
-    }
-
-    NewsScreen(
-        mainBottomNavigationItems = mainBottomNavItem,
-        currentDestination = "news_route",
-        query = "spacex",
-        news = sampleNews,
-        onQueryChange = {},
-        onDetailsClick = {}
-    )
-}
-
 

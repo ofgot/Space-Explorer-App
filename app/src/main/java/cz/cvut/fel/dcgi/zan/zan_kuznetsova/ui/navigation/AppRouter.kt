@@ -1,13 +1,14 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -23,6 +24,8 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.SettingsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
 
 
 @Composable
@@ -83,9 +86,9 @@ fun MainAppRouter(navController: NavHostController) {
                 val query by viewModel.searchQuery.collectAsState()
                 val filteredLaunches by viewModel.filteredLaunches.collectAsStateWithLifecycle()
 
-                LaunchedEffect(Unit) {
+                LaunchedEffect(filteredLaunches) {
                     if (filteredLaunches.isEmpty()) {
-                        viewModel.downloadLaunches()
+                        viewModel.onEvent(LaunchesEvent.OnDownloadRequested)
                     }
                 }
 
@@ -96,7 +99,7 @@ fun MainAppRouter(navController: NavHostController) {
                     currentDestination = route,
                     query = query,
                     launches = filteredLaunches,
-                    onQueryChange = viewModel::setSearchQuery,
+                    onEvent = viewModel::onEvent,
                     onDetailsClick = { id ->
                         viewModel.applyLaunch(id)
                         navController.navigate(LaunchesRoutes.LaunchDetails)
@@ -122,12 +125,15 @@ fun MainAppRouter(navController: NavHostController) {
         ) {
             composable<NewsRoutes.News> { backStackEntry ->
                 val viewModel = backStackEntry.sharedKoinNavViewModel<NewsViewModel>(navController)
+
                 val query by viewModel.searchQuery.collectAsState()
                 val filteredNews by viewModel.filteredNews.collectAsStateWithLifecycle()
 
-                LaunchedEffect(Unit) {
-                    if (filteredNews.isEmpty()) {
-                        viewModel.checkAndDownloadNewsIfNeeded()
+                val allNews by viewModel.news.collectAsStateWithLifecycle()
+
+                LaunchedEffect(allNews) {
+                    if (allNews.isEmpty()) {
+                        viewModel.onEvent(NewsEvent.OnDownloadRequested)
                     }
                 }
 
@@ -137,8 +143,8 @@ fun MainAppRouter(navController: NavHostController) {
                     mainBottomNavigationItems = mainBottomNavItem,
                     currentDestination = route,
                     query = query,
-                    onQueryChange = viewModel::setSearchQuery,
                     news = filteredNews,
+                    onEvent = viewModel::onEvent,
                     onDetailsClick = { id ->
                         viewModel.applyNews(id)
                         navController.navigate(NewsRoutes.NewsDetails)
@@ -155,14 +161,13 @@ fun MainAppRouter(navController: NavHostController) {
                 val comment by viewModel.commentState.collectAsStateWithLifecycle()
                 val isEditing by viewModel.isEditing.collectAsStateWithLifecycle()
 
-                LaunchedEffect(newsState) {
-                    viewModel.setEditing(false)
-                }
-
                 newsState?.let {
                     NewsDetailsScreen(
                         news = it,
-                        onBackClick = { navController.popBackStack() },
+                        onBackClick = {
+                            navController.popBackStack()
+                            viewModel.setEditing(false)
+                        },
 
                         // Comment
                         onCommentChange = viewModel::onCommentChange,

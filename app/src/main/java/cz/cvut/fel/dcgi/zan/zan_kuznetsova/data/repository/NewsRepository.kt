@@ -21,5 +21,5 @@ class NewsRepository (
         newsDBDataSource.updateComment(id, comment)
     }
 
-    suspend fun hasNews(): Boolean = newsDBDataSource.hasAnyNews()
+    suspend fun hasNews(): Boolean = newsDBDataSource.hasAnyData()
 }

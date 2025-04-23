@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleLaunches
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.LaunchRepository
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleNews
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,11 +20,16 @@ class LaunchViewModel(
     private val repository: LaunchRepository
 ) : ViewModel() {
 
+    // States
+
     private val _launchState = MutableStateFlow<Launch?>(null)
     val launchState = _launchState.asStateFlow()
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+
+    // DB
 
     fun applyLaunch(id: String) {
         viewModelScope.launch {
@@ -35,7 +42,9 @@ class LaunchViewModel(
 
     fun downloadLaunches() {
         viewModelScope.launch {
-            repository.insertLaunches(sampleLaunches)
+            if (!repository.hasLaunches()) {
+                repository.insertLaunches(sampleLaunches)
+            }
         }
     }
 
@@ -45,6 +54,7 @@ class LaunchViewModel(
         }
     }
 
+    // Search
 
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
@@ -57,4 +67,13 @@ class LaunchViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
 
+    // Events
+
+    fun onEvent(event: LaunchesEvent) {
+        when (event) {
+            is LaunchesEvent.OnSearchQueryChange -> setSearchQuery(event.query)
+            is LaunchesEvent.OnDownloadRequested -> downloadLaunches()
+            is LaunchesEvent.OnClearDatabase -> clearDatabase()
+        }
+    }
 }

@@ -19,4 +19,6 @@ class LaunchRepository(
     suspend fun getLaunchesById(id: String) =
         launchDBDataSource.getById(id)
 
+    suspend fun hasLaunches(): Boolean = launchDBDataSource.hasAnyData()
+
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleNews
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.NewsRepository
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -44,13 +45,6 @@ class NewsViewModel(
         }
     }
 
-    fun checkAndDownloadNewsIfNeeded() {
-        viewModelScope.launch {
-            if (!repository.hasNews()) {
-                repository.insertNews(sampleNews)
-            }
-        }
-    }
 
     fun clearDatabase() {
         viewModelScope.launch {
@@ -101,6 +95,16 @@ class NewsViewModel(
 
     fun setEditing(value: Boolean) {
         _isEditing.value = value
+    }
+
+    // Events
+
+    fun onEvent(event: NewsEvent) {
+        when (event) {
+            is NewsEvent.OnSearchQueryChange -> setSearchQuery(event.query)
+            is NewsEvent.OnDownloadRequested -> downloadNews()
+            is NewsEvent.OnClearDatabase -> clearDatabase()
+        }
     }
 
 }

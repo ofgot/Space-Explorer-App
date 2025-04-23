@@ -32,7 +32,7 @@ class NewsDBDataSourceImpl(
         newsDao.updateComment(id, comment)
     }
 
-    override suspend fun hasAnyNews(): Boolean = newsDao.hasAnyNews()
+    override suspend fun hasAnyData(): Boolean = newsDao.hasAnyNews()
 }
 
 // Mapping
