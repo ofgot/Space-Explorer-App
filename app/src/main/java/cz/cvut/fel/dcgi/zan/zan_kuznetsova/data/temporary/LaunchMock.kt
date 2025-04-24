@@ -152,7 +152,7 @@ val sampleLaunches = listOf(
         webcastLive = "https://youtube.com/esa/juice",
         image = Image(
             name = "Ariane 5 JUICE",
-            url = "https://example.com/ariane5-juice.jpg"
+            url = "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/firefly_alpha_l_image_20240605174156.jpeg"
         ),
         agency = Agency(
             name = "European Space Agency",

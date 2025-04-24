@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class NewsViewModel(
@@ -39,12 +41,11 @@ class NewsViewModel(
 
     fun downloadNews() {
         viewModelScope.launch {
-            if (!repository.hasNews()) {
-                repository.insertNews(sampleNews)
-            }
+            val existingIds = repository.getAllNewsIds()
+            val newItems = sampleNews.filterNot { it.id in existingIds }
+            repository.insertNews(newItems)
         }
     }
-
 
     fun clearDatabase() {
         viewModelScope.launch {
@@ -97,6 +98,26 @@ class NewsViewModel(
         _isEditing.value = value
     }
 
+    // Deleting
+
+    private val _selectedNewsIds = MutableStateFlow<Set<Int>>(emptySet())
+    val selectedNewsIds: StateFlow<Set<Int>> = _selectedNewsIds.asStateFlow()
+
+
+    fun toggleSelection(id: Int) {
+        _selectedNewsIds.update { current ->
+            if (id in current) current - id else current + id
+        }
+    }
+
+    fun deleteSelectedNews() {
+        viewModelScope.launch {
+            repository.deleteNewsByIds(_selectedNewsIds.value.toList())
+            _selectedNewsIds.value = emptySet()
+        }
+    }
+
+
     // Events
 
     fun onEvent(event: NewsEvent) {
@@ -109,6 +130,9 @@ class NewsViewModel(
             is NewsEvent.OnSaveComment -> saveComment()
             is NewsEvent.OnToggleEditing -> toggleEditing()
             is NewsEvent.OnEditingFinished -> setEditing(false)
+
+            is NewsEvent.OnToggleSelection -> toggleSelection(event.id)
+            is NewsEvent.OnDeleteSelected -> deleteSelectedNews()
         }
     }
 

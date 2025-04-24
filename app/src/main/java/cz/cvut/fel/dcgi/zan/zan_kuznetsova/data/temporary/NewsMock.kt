@@ -18,15 +18,15 @@ val sampleNews = listOf(
     ),
     News(
         id = 5,
-        title = "Live coverage: SpaceX to launch 28 Starlink satellites on Falcon 9 rocket from Cape Canaveral",
+        title = "LIVE COVERAGE! China Shenzhou 20 Crew Launch",
         author = "Will Robinson-Smith",
         image = Image(
             name = "Starlink Launch",
-            url = "http://spaceflightnow.com/wp-content/uploads/2024/12/20241207-Starlink-12-5-Pad-Shot.jpg"
+            url = "https://cdn.tlpnetwork.com/articles/2025/1745475301426.jpeg"
         ),
         publishedAt = "2025-04-05T02:33:27Z",
-        url = "https://spaceflightnow.com/2025/04/05/live-coverage-spacex-to-launch-28-starlink-satellites-on-falcon-9-rocket-from-cape-canaveral/",
-        summary = "The Starlink 6-72 mission will be the 26th launch of Starlink satellites in 2025. Liftoff of from pad 40 at Cape Canaveral Space Force Station is set for Saturday, April 5, at 10:40 p.m. EDT (0240 UTC)."
+        url = "https://tlpnetwork.com/news/asia/live-coverage-china-shenzhou-20-crew-launch",
+        summary = "LIVE COVERAGE! China Shenzhou 20 Crew Launch"
     ),
     News(
         id = 6,
@@ -42,14 +42,26 @@ val sampleNews = listOf(
     ),
     News(
         id = 10,
-        title = "NASA",
+        title = "Sentinel-1 captures ground shift from Myanmar earthquake",
         author = "Katerine",
         image = Image(
             name = "Mam",
-            url = "https://i0.wp.com/spacenews.com/wp-content/uploads/2023/03/ax1-dockediss.jpg?fit=1024%2C575&quality=89&ssl=1"
+            url = "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2025/04/sentinel-1_interferogram_of_myanmar_earthquake/26673296-1-eng-GB/Sentinel-1_interferogram_of_Myanmar_earthquake_card_full.jpg"
         ),
         publishedAt = "2025-04-04T23:40:43Z",
-        url = "",
-        summary = "NASA’s latest call for proposals for private astronaut missions to the space station opens the door to having those missions commanded by someone other than a former NASA astronaut."
+        url = "https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-1/Sentinel-1_captures_ground_shift_from_Myanmar_earthquake",
+        summary = "On 28 March 2025, a powerful magnitude 7.7 earthquake struck central Myanmar, sending shockwaves through the region. While the country is still dealing with the devasting aftermath, scientists have used radar images from the Copernicus Sentinel-1 satellites to reveal a detailed picture of how the ground shifted as a result of the quake – offering new insights into the mechanics of the tectonic Sagaing Fault and the scale of the seismic rupture."
+    ),
+    News(
+        id = 11,
+        title = "Houby",
+        author = "Katerine",
+        image = Image(
+            name = "Mam",
+            url = "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2025/04/sentinel-1_interferogram_of_myanmar_earthquake/26673296-1-eng-GB/Sentinel-1_interferogram_of_Myanmar_earthquake_card_full.jpg"
+        ),
+        publishedAt = "2025-04-04T23:40:43Z",
+        url = "https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-1/Sentinel-1_captures_ground_shift_from_Myanmar_earthquake",
+        summary = "On 28 March 2025, a powerful magnitude 7.7 earthquake struck central Myanmar, sending shockwaves through the region. While the country is still dealing with the devasting aftermath, scientists have used radar images from the Copernicus Sentinel-1 satellites to reveal a detailed picture of how the ground shifted as a result of the quake – offering new insights into the mechanics of the tectonic Sagaing Fault and the scale of the seismic rupture."
     )
 )

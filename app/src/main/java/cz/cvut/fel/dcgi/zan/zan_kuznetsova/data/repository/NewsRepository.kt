@@ -2,6 +2,7 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository
 
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource.DBDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
+import kotlinx.coroutines.flow.first
 
 class NewsRepository (
     private val newsDBDataSource: DBDataSource<News, Int>
@@ -22,4 +23,8 @@ class NewsRepository (
     }
 
     suspend fun hasNews(): Boolean = newsDBDataSource.hasAnyData()
+
+    suspend fun getAllNewsIds(): List<Int> = newsDBDataSource.getAllIds()
+
+    suspend fun deleteNewsByIds(ids: List<Int>) = newsDBDataSource.deleteNewsByIds(ids)
 }

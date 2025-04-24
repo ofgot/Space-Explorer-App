@@ -9,4 +9,7 @@ sealed class NewsEvent {
     object OnSaveComment : NewsEvent()
     object OnToggleEditing : NewsEvent()
     object OnEditingFinished : NewsEvent()
+
+    data class OnToggleSelection(val id: Int) : NewsEvent()
+    object OnDeleteSelected : NewsEvent()
 }

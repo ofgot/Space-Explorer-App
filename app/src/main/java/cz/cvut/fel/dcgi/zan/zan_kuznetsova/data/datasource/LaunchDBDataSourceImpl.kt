@@ -35,9 +35,9 @@ class LaunchDBDataSourceImpl(
     override suspend fun deleteAll() =
         launchDao.deleteAllLaunches()
 
-    override suspend fun updateComment(id: Int, comment: String) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateComment(id: Int, comment: String) { TODO("Not yet implemented") }
+    override suspend fun getAllIds(): List<Int> { TODO("Not yet implemented") }
+    override suspend fun deleteNewsByIds(ids: List<Int>) { TODO("Not yet implemented") }
 
     override suspend fun hasAnyData(): Boolean = launchDao.hasAnyLaunches()
 }

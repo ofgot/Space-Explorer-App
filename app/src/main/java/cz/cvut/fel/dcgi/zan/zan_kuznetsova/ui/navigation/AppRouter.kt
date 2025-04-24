@@ -84,8 +84,10 @@ fun MainAppRouter(navController: NavHostController) {
                 val query by viewModel.searchQuery.collectAsState()
                 val filteredLaunches by viewModel.filteredLaunches.collectAsStateWithLifecycle()
 
-                LaunchedEffect(filteredLaunches) {
-                    if (filteredLaunches.isEmpty()) {
+                val allLaunches by viewModel.launches.collectAsStateWithLifecycle()
+
+                LaunchedEffect(allLaunches) {
+                    if (allLaunches.isEmpty()) {
                         viewModel.onEvent(LaunchesEvent.OnDownloadRequested)
                     }
                 }
@@ -128,15 +130,9 @@ fun MainAppRouter(navController: NavHostController) {
                 val query by viewModel.searchQuery.collectAsState()
                 val filteredNews by viewModel.filteredNews.collectAsStateWithLifecycle()
 
-                val allNews by viewModel.news.collectAsStateWithLifecycle()
-
-                LaunchedEffect(allNews) {
-                    if (allNews.isEmpty()) {
-                        viewModel.onEvent(NewsEvent.OnDownloadRequested)
-                    }
-                }
-
                 val route = currentBackStackEntry.value?.destination?.route.orEmpty()
+
+                val selectedNewsIds by viewModel.selectedNewsIds.collectAsState()
 
                 NewsScreen(
                     mainBottomNavigationItems = mainBottomNavItem,
@@ -147,8 +143,9 @@ fun MainAppRouter(navController: NavHostController) {
                     onDetailsClick = { id ->
                         viewModel.applyNews(id)
                         navController.navigate(NewsRoutes.NewsDetails)
-                    }
+                    },
 
+                    selectedNewsIds = selectedNewsIds,
                 )
             }
 

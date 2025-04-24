@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,17 +32,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.R
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleNews
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.MoreLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.Routes
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
 
 @Composable
@@ -52,12 +49,13 @@ fun NewsScreen(
     query: String,
     news: List<News>,
     onDetailsClick: (Int) -> Unit,
-    onEvent: (NewsEvent) -> Unit
-) {
+    onEvent: (NewsEvent) -> Unit,
 
+    selectedNewsIds: Set<Int>,
+) {
     Scaffold(
         topBar = {
-            NewsAppBar()
+            NewsAppBar(onEvent)
         },
         bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
         modifier = Modifier.fillMaxSize()
@@ -68,6 +66,8 @@ fun NewsScreen(
             onDetailsClick = onDetailsClick,
             query = query,
             onEvent = onEvent,
+
+            selectedNewsIds = selectedNewsIds
         )
     }
 }
@@ -80,6 +80,8 @@ fun NewsContent(
     modifier: Modifier = Modifier,
     query: String,
     onEvent: (NewsEvent) -> Unit,
+
+    selectedNewsIds: Set<Int>,
 ) {
     LazyColumn(
         modifier = modifier
@@ -106,6 +108,9 @@ fun NewsContent(
                 onDetailsClick = {
                     onDetailsClick(singleNews.id)
                 },
+
+                isSelected = selectedNewsIds.contains(singleNews.id),
+                onEvent = onEvent
             )
         }
     }
@@ -116,6 +121,9 @@ fun NewsItem(
     news: News,
     modifier: Modifier,
     onDetailsClick: () -> Unit,
+
+    isSelected: Boolean,
+    onEvent: (NewsEvent) -> Unit
 ) {
     Row(
         modifier = modifier
@@ -179,6 +187,13 @@ fun NewsItem(
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(start = 2.dp),
                 )
+
+                Checkbox(
+                    checked = isSelected,
+                    onCheckedChange = {
+                        onEvent(NewsEvent.OnToggleSelection(news.id))
+                    }
+                )
             }
         }
     }
@@ -187,7 +202,9 @@ fun NewsItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsAppBar() {
+fun NewsAppBar(
+    onEvent: (NewsEvent) -> Unit
+) {
     TopAppBar(
         title = {
             SingleLineText(
@@ -196,6 +213,30 @@ fun NewsAppBar() {
                 modifier = Modifier.fillMaxWidth()
             )
         },
+        actions = {
+            IconButton(
+                onClick = { onEvent(NewsEvent.OnDownloadRequested) }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.reload),
+                    contentDescription = "Reload news",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .padding(end = 10.dp)
+                )
+            }
+            IconButton(
+                onClick = { onEvent(NewsEvent.OnDeleteSelected) }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.delete),
+                    contentDescription = "Delete news",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .padding(end = 10.dp)
+                )
+            }
+        }
     )
 }
 

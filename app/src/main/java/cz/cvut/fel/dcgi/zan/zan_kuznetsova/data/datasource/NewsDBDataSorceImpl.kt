@@ -33,6 +33,14 @@ class NewsDBDataSourceImpl(
     }
 
     override suspend fun hasAnyData(): Boolean = newsDao.hasAnyNews()
+
+    override suspend fun getAllIds(): List<Int> {
+        return newsDao.getAllIds()
+    }
+
+    override suspend fun deleteNewsByIds(ids: List<Int>) {
+        newsDao.deleteNewsByIds(ids)
+    }
 }
 
 // Mapping

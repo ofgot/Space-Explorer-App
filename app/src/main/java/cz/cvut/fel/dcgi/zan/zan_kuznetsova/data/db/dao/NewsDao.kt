@@ -15,7 +15,7 @@ interface NewsDao {
     @Query("SELECT * FROM news  WHERE id = :id")
     suspend fun getNewsForId(id: Int): NewsEntity
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertNews(news: List<NewsEntity>)
 
     @Query("DELETE FROM news")
@@ -27,4 +27,9 @@ interface NewsDao {
     @Query("SELECT EXISTS(SELECT 1 FROM news)")
     suspend fun hasAnyNews(): Boolean
 
+    @Query("SELECT id FROM news")
+    suspend fun getAllIds(): List<Int>
+
+    @Query("DELETE FROM news WHERE id IN (:ids)")
+    suspend fun deleteNewsByIds(ids: List<Int>)
 }

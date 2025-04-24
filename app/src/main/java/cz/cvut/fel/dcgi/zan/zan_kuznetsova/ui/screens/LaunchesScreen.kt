@@ -94,7 +94,7 @@ fun LaunchContent(
         item {
             OutlinedTextField(
                 value = query,
-                onValueChange = {onEvent(LaunchesEvent.OnSearchQueryChange(it))},
+                onValueChange = { onEvent(LaunchesEvent.OnSearchQueryChange(it)) },
                 label = { Text("Search by name") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -270,9 +270,7 @@ fun CountdownTimer(modifier: Modifier = Modifier) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LaunchesAppBar() {
-    Column {
-        TopAppBar(
-            title = { Text("Launches") }
-        )
-    }
+    TopAppBar(
+        title = { Text("Launches") },
+    )
 }
