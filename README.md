@@ -1,7 +1,7 @@
-#🚀 Space Explorer App version A1-A3
+# 🚀 Space Explorer App version A1-A3
 Space Explorer is a mobile application for discovering and managing space-related content.
 
-#News
+## News
 
 - Initially, there are no news articles.
 
@@ -13,13 +13,13 @@ Space Explorer is a mobile application for discovering and managing space-relate
 
  -Select multiple articles for bulk actions like deletion.
 
-#Memories
+## Memories
 Explore and manage saved memories linked to space launches or news articles.
 
-#Settings
+## Settings
 Customize your app preferences and appearance.
 
-#⚙️ Technical Highlights
+## ⚙️ Technical Highlights
 
 - Built with Jetpack Compose and Room Database.
 
