@@ -9,9 +9,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/rocket"
+        android:icon="@drawable/rocket_main"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/rocket"
+        android:roundIcon="@drawable/rocket_main"
         android:supportsRtl="true"
         android:theme="@style/Theme.Zankuznetsova"
         tools:targetApi="31">

@@ -54,14 +54,17 @@ val sampleNews = listOf(
     ),
     News(
         id = 11,
-        title = "Houby",
+        title = "Magic mushrooms are around us",
         author = "Katerine",
         image = Image(
-            name = "Mam",
-            url = "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2025/04/sentinel-1_interferogram_of_myanmar_earthquake/26673296-1-eng-GB/Sentinel-1_interferogram_of_Myanmar_earthquake_card_full.jpg"
+            name = "Interesting person",
+            url = "https://as1.ftcdn.net/v2/jpg/01/75/51/24/1000_F_175512443_gSffawE179i10lBBo5xjvUMo1GDFevKA.jpg"
         ),
         publishedAt = "2025-04-04T23:40:43Z",
         url = "https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-1/Sentinel-1_captures_ground_shift_from_Myanmar_earthquake",
-        summary = "On 28 March 2025, a powerful magnitude 7.7 earthquake struck central Myanmar, sending shockwaves through the region. While the country is still dealing with the devasting aftermath, scientists have used radar images from the Copernicus Sentinel-1 satellites to reveal a detailed picture of how the ground shifted as a result of the quake – offering new insights into the mechanics of the tectonic Sagaing Fault and the scale of the seismic rupture."
+        summary = "The effects of magic mushrooms come from psilocybin and psilocin. " +
+                "When psilocybin is ingested, it is broken down by the liver in a process called dephosphorylation. " +
+                "The resulting compound is called psilocin, responsible for the psychedelic effects." +
+                " Psilocybin and psilocin create short-term increases in tolerance of users, thus making it difficult to misuse them because the more often they are taken within a short period, the weaker the resultant effects are.[43] Psilocybin mushrooms have not been known to cause physical or psychological dependence (addiction).[44] The psychedelic effects appear around 20 minutes after ingestion and can last up to 6 hours. Physical effects may occur, including nausea, vomiting, euphoria, muscle weakness or relaxation, drowsiness, and lack of coordination."
     )
 )

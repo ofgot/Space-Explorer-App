@@ -162,7 +162,7 @@ fun NewsItem(
             MoreLineText(
                 text = news.title,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp).fillMaxWidth(),
                 maxLine = 2,
                 textAlign = TextAlign.Center,
             )
@@ -177,7 +177,7 @@ fun NewsItem(
                 TextButton(
                     onClick = onDetailsClick,
                     colors = ButtonDefaults.textButtonColors(
-                        contentColor = Color.Black
+                        contentColor = MaterialTheme.colorScheme.onSurface
                     )
                 ) {
                     Icon(
