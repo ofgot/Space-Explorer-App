@@ -1,33 +1,35 @@
-Space Explorer App
-Description:
-This mobile application allows users to explore and manage space-related content.
+#🚀 Space Explorer App version A1-A3
+Space Explorer is a mobile application for discovering and managing space-related content.
 
-Features:
+#News
 
-Launches: Browse a list of space launches, view detailed information, and add launches to favorites.
+- Initially, there are no news articles.
 
-News:
+- Load sample news by tapping the Reload button.
 
-Initially, there are no news articles.
+- Search and filter news articles by keywords.
 
-Users can load sample news by pressing the Reload button.
+- View detailed articles and add personal comments.
 
-Search and filter news articles.
+ -Select multiple articles for bulk actions like deletion.
 
-View article details and add comments.
+#Memories
+Explore and manage saved memories linked to space launches or news articles.
 
-Select multiple news articles for bulk actions (e.g., deletion).
+#Settings
+Customize your app preferences and appearance.
 
-Memories: View saved memories linked to launches or articles.
+#⚙️ Technical Highlights
 
-Settings: Manage app preferences and appearance.
+- Built with Jetpack Compose and Room Database.
 
-Favorites: View all saved launches and news in one place.
+- Navigation with multiple graphs and Bottom Navigation.
 
-Technical Details:
+- Dark/light theme support.
 
-Built with Jetpack Compose and Room database.
+- State management with ViewModel, StateFlow, and LiveData.
 
-Supports dark and light themes.
+- Proper behavior on screen rotation and application restart without losing data.
 
-Handles screen rotation and application restarts without data loss.
+- Dependency injection with Koin.
+
