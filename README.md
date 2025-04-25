@@ -11,7 +11,7 @@ Space Explorer is a mobile application for discovering and managing space-relate
 
 - View detailed articles and add personal comments.
 
- -Select multiple articles for bulk actions like deletion.
+- Select multiple articles for bulk actions like deletion.
 
 ## Memories
 Explore and manage saved memories linked to space launches or news articles.
