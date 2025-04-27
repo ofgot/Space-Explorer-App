@@ -3,6 +3,7 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -86,37 +87,52 @@ fun NewsContent(
 
     selectedNewsIds: Set<Int>,
 ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        item {
-            OutlinedTextField(
-                value = query,
-                onValueChange = { onEvent(NewsEvent.OnSearchQueryChange(it)) },
-                label = { Text("Search news...") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
+    if (news.isEmpty()){
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Press Reload button to see the news!",
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center
             )
         }
+    } else {
 
-        items(news) { singleNews ->
-            NewsItem(
-                news = singleNews,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                onDetailsClick = {
-                    onDetailsClick(singleNews.id)
-                },
+        LazyColumn(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            item {
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { onEvent(NewsEvent.OnSearchQueryChange(it)) },
+                    label = { Text("Search news...") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp)
+                )
+            }
 
-                isSelected = selectedNewsIds.contains(singleNews.id),
-                onEvent = onEvent
-            )
+            items(news) { singleNews ->
+                NewsItem(
+                    news = singleNews,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    onDetailsClick = {
+                        onDetailsClick(singleNews.id)
+                    },
+
+                    isSelected = selectedNewsIds.contains(singleNews.id),
+                    onEvent = onEvent
+                )
+            }
         }
     }
+
 }
 
 @Composable
