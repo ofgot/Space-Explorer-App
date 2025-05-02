@@ -44,7 +44,7 @@ data class RocketDetails(
     val infoUrl: String = "",   // info_url
     val wikiUrl: String = "",   // wiki_url
 
-    val height: Double  = 0.0,          // length
+    val height: Double  = 0.0,          // height
     val diameter: Double = 0.0,        // diameter
     val maxStage: Int = 0,          // max_stage
     val massToLEO: Double = 0.0,       // leo_capacity

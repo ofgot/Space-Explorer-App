@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleLaunches
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.datasource.LaunchApiDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.LaunchRepository
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleNews
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.*
 
 class LaunchViewModel(
-    private val repository: LaunchRepository
+    private val repository: LaunchRepository,
+    private val remoteDataSource: LaunchApiDataSource
 ) : ViewModel() {
 
     // States
@@ -43,7 +45,8 @@ class LaunchViewModel(
     fun downloadLaunches() {
         viewModelScope.launch {
             if (!repository.hasLaunches()) {
-                repository.insertLaunches(sampleLaunches)
+                val launches = remoteDataSource.getLaunches()
+                repository.insertLaunches(launches)
             }
         }
     }
