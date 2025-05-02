@@ -120,52 +120,62 @@ fun LaunchDetailsItem(
         DetailsTextField(
             text1 = "Height",
             text2 = launch.rocket?.rocketDetails?.height.toString(),
+            text3 = " meters",
             style = MaterialTheme.typography.bodyLarge,
         )
         DetailsTextField(
             text1 = "Max Stages",
             text2 = launch.rocket?.rocketDetails?.maxStage.toString(),
+            text3 = "",
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Mass To GTO",
             text2 = launch.rocket?.rocketDetails?.massToGTO.toString(),
+            text3 = " kg",
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Liftoff Thrust",
             text2 = launch.rocket?.rocketDetails?.liftoffThrust.toString(),
+            text3 = " kN",
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Diameter",
             text2 = launch.rocket?.rocketDetails?.diameter.toString(),
+            text3 = " meters",
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Mass To LEO",
             text2 = launch.rocket?.rocketDetails?.massToLEO.toString(),
+            text3 = " kg",
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Liftoff Mass",
             text2 = launch.rocket?.rocketDetails?.liftoffMass.toString(),
+            text3 = " tonnes",
             style = MaterialTheme.typography.bodyLarge
         )
         HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
         DetailsTextField(
             text1 = "Launch Success",
             text2 = launch.rocket?.rocketDetails?.successfulLaunches.toString(),
+            text3 = "",
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Maiden Flight",
             text2 = launch.rocket?.rocketDetails?.maidenFlight.toString(),
+            text3 = "",
             style = MaterialTheme.typography.bodyLarge
         )
         DetailsTextField(
             text1 = "Launch Failures",
             text2 = launch.rocket?.rocketDetails?.failedLaunches.toString(),
+            text3 = "",
             style = MaterialTheme.typography.bodyLarge
         )
         IconButton(
@@ -193,6 +203,7 @@ fun LaunchDetailsItem(
 fun DetailsTextField(
     text1: String,
     text2: String,
+    text3: String,
     style: TextStyle,
     modifier: Modifier = Modifier
 ) {
@@ -208,6 +219,10 @@ fun DetailsTextField(
         SingleLineText(
             text = text2,
             style = style
+        )
+        SingleLineText(
+            text = text3,
+            style
         )
     }
 }
