@@ -78,7 +78,8 @@ fun MainAppRouter(navController: NavHostController) {
             startDestination = LaunchesRoutes.Launches
         ) {
             composable<LaunchesRoutes.Launches> { backStackEntry ->
-                val viewModel = backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
+                val viewModel =
+                    backStackEntry.sharedKoinNavViewModel<LaunchViewModel>(navController)
 
                 val query by viewModel.searchQuery.collectAsState()
                 val filteredLaunches by viewModel.filteredLaunches.collectAsStateWithLifecycle()

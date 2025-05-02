@@ -12,7 +12,6 @@ data class LaunchDto(
     val net: String,
     val status: StatusDto?,
     val pad: PadDto?,
-    val webcast_live: Boolean?,
     val image: String?,
     @Json(name = "launch_service_provider") val launchServiceProvider: AgencyDto?,
     val rocket: RocketDto?

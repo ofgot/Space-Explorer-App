@@ -3,6 +3,7 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,8 +27,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,7 +49,14 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.formatLaunchDate
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.openUrl
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.Instant
+import java.time.OffsetDateTime
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+
 
 @Composable
 fun LaunchesScreen(
@@ -167,7 +178,7 @@ fun LaunchItem(
                 modifier = Modifier.padding(start = 16.dp)
             )
 
-            CountdownTimer()
+            CountdownTimer(netTime = launch.net, launch.status.abbrev)
 
             SingleLineText(
                 formatLaunchDate(launch.net),
@@ -210,59 +221,86 @@ fun LaunchItem(
 }
 
 @Composable
-fun CountdownTimer(modifier: Modifier = Modifier) {
-    val days = 0
-    val hours = 0
-    val minutes = 0
-    val seconds = 0
+fun CountdownTimer(
+    netTime: String,
+    status: String,
+    modifier: Modifier = Modifier
+) {
 
-    val isPast = true
+    val targetTime = remember(netTime) {
+        OffsetDateTime.parse(netTime).toInstant()
+    }
 
-    Column(
-        modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()
+    var timeLeft by remember { mutableStateOf(Duration.between(Instant.now(), targetTime)) }
+
+    val isPast by remember { derivedStateOf { timeLeft.isNegative || timeLeft.isZero } }
+
+    LaunchedEffect(targetTime) {
+        while (!isPast) {
+            val now = Instant.now()
+            timeLeft = Duration.between(now, targetTime)
+
+            val millisToNextSecond = 1000 - (System.currentTimeMillis() % 1000)
+            delay(millisToNextSecond)
+        }
+    }
+
+    if (isPast) {
+        Box(
+            modifier = Modifier
+                .background(
+                    color = Color(0xFFB3CCAC),
+                    shape = RoundedCornerShape(50)
+                )
+                .padding(horizontal = 24.dp, vertical = 12.dp)
         ) {
-            SingleLineText(
-                text = "T${if (isPast) "+" else "-"}",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(end = 4.dp)
-            )
-            SingleLineText(
-                text = "${days.toString().padStart(2, '0')} : " + "${
-                    hours.toString().padStart(2, '0')
-                } : " + "${minutes.toString().padStart(2, '0')} : " + "${
-                    seconds.toString().padStart(2, '0')
-                }", style = MaterialTheme.typography.headlineMedium
+            Text(
+                text = status,
+                color = Color.White,
+                style = MaterialTheme.typography.bodyLarge
             )
         }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+
+    } else {
+        val totalSeconds = timeLeft.seconds
+        val days = totalSeconds / (60 * 60 * 24)
+        val hours = (totalSeconds / (60 * 60)) % 24
+        val minutes = (totalSeconds / 60) % 60
+        val seconds = totalSeconds % 60
+
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SingleLineText(
-                "Days",
-                MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 20.dp)
-            )
-            SingleLineText(
-                "Hours",
-                MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 20.dp)
-            )
-            SingleLineText(
-                "Mins",
-                MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 20.dp)
-            )
-            SingleLineText(
-                "Secs",
-                MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 20.dp)
-            )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "T-",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
+                Text(
+                    text = "${days.toString().padStart(2, '0')} : ${
+                        hours.toString().padStart(2, '0')
+                    } : ${minutes.toString().padStart(2, '0')} : ${
+                        seconds.toString().padStart(2, '0')
+                    }",
+                    style = MaterialTheme.typography.headlineMedium
+                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            ) {
+                listOf("Days", "Hours", "Mins", "Secs").forEach {
+                    Text(it, style = MaterialTheme.typography.bodyMedium)
+                }
+            }
         }
     }
 }

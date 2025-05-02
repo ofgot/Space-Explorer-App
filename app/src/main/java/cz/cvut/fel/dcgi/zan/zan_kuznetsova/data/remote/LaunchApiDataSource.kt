@@ -1,11 +1,8 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.datasource
 
 import android.util.Log
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.*
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.LaunchLibraryApi
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.dto.LaunchDto
 
 class LaunchApiDataSource(
     private val api: LaunchLibraryApi
@@ -18,7 +15,6 @@ class LaunchApiDataSource(
         launches.forEach { dto ->
             Log.d("API_ITEM", dto.toString())
         }
-
 
         return launches.map { dto ->
             val config = dto.rocket?.configuration
@@ -40,7 +36,6 @@ class LaunchApiDataSource(
                     abbrev = dto.status?.abbrev ?: ""
                 ),
                 location = dto.pad?.location?.name ?: "",
-//                webcastLive = dto.webcast_live ?: "",
 
                 image = dto.image?.let { url ->
                     Image(name = "Launch image", url = url)
