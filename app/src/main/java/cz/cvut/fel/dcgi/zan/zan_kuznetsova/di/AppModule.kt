@@ -1,5 +1,6 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.di
 
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.components.PreferencesManager
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource.LaunchDBDataSourceImpl
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.LaunchDatabase
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.NewsDatabase
@@ -39,7 +40,7 @@ val appModule = module {
     }
 
     viewModel<LaunchViewModel> {
-        LaunchViewModel(repository = get(), remoteDataSource = get())
+        LaunchViewModel(repository = get(), remoteDataSource = get(), preferences = get())
     }
 
     // NewsModule
@@ -88,4 +89,6 @@ val appModule = module {
     single {
         LaunchApiDataSource(get())
     }
+
+    single { PreferencesManager(get()) }
 }

@@ -4,8 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.components.saveReloadTime
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.components.shouldReload
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.components.PreferencesManager
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.Launch
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.datasource.LaunchApiDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.LaunchRepository
@@ -21,7 +20,8 @@ import kotlinx.coroutines.flow.*
 
 class LaunchViewModel(
     private val repository: LaunchRepository,
-    private val remoteDataSource: LaunchApiDataSource
+    private val remoteDataSource: LaunchApiDataSource,
+    private val preferences: PreferencesManager
 ) : ViewModel() {
 
     // States
@@ -33,8 +33,6 @@ class LaunchViewModel(
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     private val _isRefreshing = MutableStateFlow(false)
-    val isRefreshing: StateFlow<Boolean> = _isRefreshing
-
 
     // DB
 
@@ -47,10 +45,10 @@ class LaunchViewModel(
     val launches = repository.getAllLaunches()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-    fun refresh(context: Context) {
+    fun refresh() {
         viewModelScope.launch {
-            if (!shouldReload(context)) {
-                Log.i("REFRESH", "Skip: Too soon to reload.")
+            if (!preferences.shouldReload()) {
+                Log.i("REFRESH", "Too soon to reload.")
                 return@launch
             }
 
@@ -58,8 +56,8 @@ class LaunchViewModel(
             try {
                 val launches = remoteDataSource.getLaunches()
                 repository.insertLaunches(launches)
-                saveReloadTime(context)
-                Log.i("REFRESH", "Launches reloaded.")
+                preferences.saveReloadTime()
+                Log.i("IMPORTANT", "data was reload")
             } catch (e: Exception) {
                 Log.e("REFRESH", "API failed: ${e.message}")
             } finally {
@@ -105,7 +103,7 @@ class LaunchViewModel(
             is LaunchesEvent.OnSearchQueryChange -> setSearchQuery(event.query)
             is LaunchesEvent.OnDownloadRequested -> downloadLaunches()
             is LaunchesEvent.OnClearDatabase -> clearDatabase()
-            is LaunchesEvent.OnRefreshRequested -> refresh(context)
+            is LaunchesEvent.OnRefreshRequested -> refresh()
         }
     }
 }
