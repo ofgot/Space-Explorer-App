@@ -9,7 +9,7 @@ import retrofit2.http.Url
 interface LaunchLibraryApi {
     @GET("launch/upcoming")
     suspend fun getUpcomingLaunches(
-        @Query("limit") limit: Int = 1,
+        @Query("limit") limit: Int = 5,
         @Query("mode") mode: String = "detailed"
     ): LaunchApiResponse
 

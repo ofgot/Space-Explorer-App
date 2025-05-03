@@ -20,8 +20,9 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.NewsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.screens.SettingsScreen
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
+import androidx.compose.ui.platform.LocalContext
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
 
 
 @Composable
@@ -86,10 +87,15 @@ fun MainAppRouter(navController: NavHostController) {
 
                 val allLaunches by viewModel.launches.collectAsStateWithLifecycle()
 
+                val context = LocalContext.current
+
 //                viewModel.clearDatabase()
                 LaunchedEffect(allLaunches) {
                     if (allLaunches.isEmpty()) {
-                        viewModel.onEvent(LaunchesEvent.OnDownloadRequested)
+                        viewModel.onEvent(
+                            LaunchesEvent.OnDownloadRequested,
+                            context
+                        )
                     }
                 }
 
@@ -100,7 +106,9 @@ fun MainAppRouter(navController: NavHostController) {
                     currentDestination = route,
                     query = query,
                     launches = filteredLaunches,
-                    onEvent = viewModel::onEvent,
+                    onEvent = { event ->
+                        viewModel.onEvent(event, context)
+                    },
                     onDetailsClick = { id ->
                         viewModel.applyLaunch(id)
                         navController.navigate(LaunchesRoutes.LaunchDetails)

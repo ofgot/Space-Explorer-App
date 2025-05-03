@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.Converters
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.components.Converters
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.LaunchDao
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.LaunchEntity
 

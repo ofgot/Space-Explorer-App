@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,6 +28,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,7 +60,6 @@ import java.time.OffsetDateTime
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 
-
 @Composable
 fun LaunchesScreen(
     mainBottomNavigationItems: List<BottomNavItem>,
@@ -71,7 +73,7 @@ fun LaunchesScreen(
 
     Scaffold(
         topBar = {
-            LaunchesAppBar()
+            LaunchesAppBar(onEvent)
         },
         bottomBar = { BottomNavigation(mainBottomNavigationItems, currentDestination) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -88,6 +90,7 @@ fun LaunchesScreen(
     }
 }
 
+
 @Composable
 fun LaunchContent(
     launches: List<Launch>,
@@ -97,6 +100,7 @@ fun LaunchContent(
     query: String,
     onEvent: (LaunchesEvent) -> Unit,
 ) {
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -307,8 +311,17 @@ fun CountdownTimer(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LaunchesAppBar() {
+fun LaunchesAppBar(
+    onEvent: (LaunchesEvent) -> Unit,
+) {
     TopAppBar(
         title = { Text("Launches") },
+        actions = {
+            IconButton(
+                onClick = { onEvent(LaunchesEvent.OnRefreshRequested) }
+            ) {
+                Icon(Icons.Default.Refresh, contentDescription = "Refresh")
+            }
+        }
     )
 }

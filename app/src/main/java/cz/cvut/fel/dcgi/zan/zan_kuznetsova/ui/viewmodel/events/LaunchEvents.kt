@@ -4,4 +4,5 @@ sealed class LaunchesEvent {
     data class OnSearchQueryChange(val query: String) : LaunchesEvent()
     object OnDownloadRequested : LaunchesEvent()
     object OnClearDatabase : LaunchesEvent()
+    object OnRefreshRequested : LaunchesEvent()
 }
