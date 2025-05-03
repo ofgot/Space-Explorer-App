@@ -35,9 +35,17 @@ class LaunchDBDataSourceImpl(
     override suspend fun deleteAll() =
         launchDao.deleteAllLaunches()
 
-    override suspend fun updateComment(id: Int, comment: String) { TODO("Not yet implemented") }
-    override suspend fun getAllIds(): List<Int> { TODO("Not yet implemented") }
-    override suspend fun deleteNewsByIds(ids: List<Int>) { TODO("Not yet implemented") }
+    override suspend fun updateComment(id: Int, comment: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAllIds(): List<Int> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteNewsByIds(ids: List<Int>) {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun hasAnyData(): Boolean = launchDao.hasAnyLaunches()
 }
@@ -79,6 +87,8 @@ fun Launch.toLaunchEntity() = LaunchEntity(
     rocketMaidenFlight = rocket?.rocketDetails?.maidenFlight ?: "",
     rocketSuccessfulLaunches = rocket?.rocketDetails?.successfulLaunches ?: 0,
     rocketFailedLaunches = rocket?.rocketDetails?.failedLaunches ?: 0,
+
+    videoUrls = videoUrls,
 )
 
 fun LaunchEntity.toLaunch() = Launch(
@@ -118,5 +128,7 @@ fun LaunchEntity.toLaunch() = Launch(
             failedLaunches = rocketFailedLaunches
         )
     ),
+
+    videoUrls = this.videoUrls
 )
 

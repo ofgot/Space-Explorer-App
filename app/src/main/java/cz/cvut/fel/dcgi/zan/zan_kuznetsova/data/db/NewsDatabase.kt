@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.dao.NewsDao
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.entity.NewsEntity
 
-@Database(entities = [NewsEntity::class], version = 4)
+@Database(entities = [NewsEntity::class], version = 6)
 abstract class NewsDatabase : RoomDatabase() {
 
     abstract fun newsDao(): NewsDao

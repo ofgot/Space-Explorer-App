@@ -10,6 +10,8 @@ data class Launch(
     val image: Image?,     // ASK ABOUT THIS
     val agency: Agency?,
     val rocket: Rocket?,
+
+    val videoUrls: List<String> = emptyList()
 )
 
 data class Status(

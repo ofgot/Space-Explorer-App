@@ -193,7 +193,7 @@ fun LaunchItem(
                         openUrl(
                             snackbarHostState = snackbarHostState,
                             context = context,
-                            url = launch.webcastLive,
+                            url = launch.videoUrls.firstOrNull() ?: "",
                             message = "Video not available"
                         )
                     }

@@ -14,7 +14,13 @@ data class LaunchDto(
     val pad: PadDto?,
     val image: String?,
     @Json(name = "launch_service_provider") val launchServiceProvider: AgencyDto?,
-    val rocket: RocketDto?
+    val rocket: RocketDto?,
+
+    val vidURLs: List<VideoUrlDto>?
+)
+
+data class VideoUrlDto(
+    val url: String
 )
 
 data class StatusDto(

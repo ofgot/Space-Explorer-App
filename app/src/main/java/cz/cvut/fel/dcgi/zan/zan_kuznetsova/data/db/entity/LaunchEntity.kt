@@ -15,6 +15,8 @@ data class LaunchEntity(
     val webcastLive: String,
     val imageUrl: String,
 
+    val videoUrls: List<String>,
+
     // Agency
     val agencyName: String,
     val agencyAbbrev: String,

@@ -13,7 +13,7 @@ class LaunchApiDataSource(
 
         // controlla
         launches.forEach { dto ->
-            Log.d("API_ITEM", dto.toString())
+            Log.e("API_ITEM", dto.toString())
         }
 
         return launches.map { dto ->
@@ -67,14 +67,16 @@ class LaunchApiDataSource(
                             maxStage = it.max_stage ?: 0,
                             massToLEO = it.leo_capacity ?: 0.0,
                             massToGTO = it.gto_capacity ?: 0.0,
-                            liftoffMass = it.to_thrust ?: 0.0,
+                            liftoffMass = it.launch_mass ?: 0.0,
                             liftoffThrust = it.to_thrust ?: 0.0,
                             successfulLaunches = it.successful_launches ?: 0,
                             maidenFlight = it.maiden_flight ?: "",
                             failedLaunches = it.failed_launches ?: 0
                         )
                     }
-                )
+                ),
+
+                videoUrls = dto.vidURLs?.map { it.url } ?: emptyList()
             )
         }
     }
