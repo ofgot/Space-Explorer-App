@@ -48,7 +48,6 @@ class NewsDBDataSourceImpl(
 fun News.toNewsEntity(): NewsEntity = NewsEntity(
     id = id,
     title = title,
-    author = author,
     image = image,
     publishedAt = publishedAt,
     url = url,
@@ -61,7 +60,6 @@ fun News.toNewsEntity(): NewsEntity = NewsEntity(
 fun NewsEntity.toNews(): News = News(
     id = id,
     title = title,
-    author = author,
     image = image,
     publishedAt = publishedAt,
     url = url,

@@ -148,8 +148,8 @@ fun NewsDetailsItem(
         )
 
         AsyncImage(
-            model = news.image?.url,
-            contentDescription = news.image?.name,
+            model = news.image,
+            contentDescription = news.image,
             modifier = Modifier
                 .padding(top = 15.dp)
                 .fillMaxWidth()

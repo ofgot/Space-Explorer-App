@@ -1,8 +1,10 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source.NewsApiDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleNews
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.NewsRepository
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
@@ -17,7 +19,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class NewsViewModel(
-    private val repository: NewsRepository
+    private val repository: NewsRepository,
+    private val remoteDataSource: NewsApiDataSource,
 ) : ViewModel() {
 
     // State
@@ -41,9 +44,14 @@ class NewsViewModel(
 
     fun downloadNews() {
         viewModelScope.launch {
-            val existingIds = repository.getAllNewsIds()
-            val newItems = sampleNews.filterNot { it.id in existingIds }
-            repository.insertNews(newItems)
+            try {
+                val existingIds = repository.getAllNewsIds()
+                val newsItems = remoteDataSource.getNews().filterNot { it.id in existingIds }
+//            val newsItems = sampleNews.filterNot { it.id in existingIds }
+                repository.insertNews(newsItems)
+            } catch (e: Exception) {
+                Log.e("NewsDownload", "Failed to download news: ${e.message}")
+            }
         }
     }
 

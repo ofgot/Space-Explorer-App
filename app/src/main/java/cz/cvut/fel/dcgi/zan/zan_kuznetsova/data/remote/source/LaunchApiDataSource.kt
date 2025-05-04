@@ -1,8 +1,8 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.datasource
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source
 
 import android.util.Log
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.*
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.LaunchLibraryApi
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.api.LaunchLibraryApi
 
 class LaunchApiDataSource(
     private val api: LaunchLibraryApi

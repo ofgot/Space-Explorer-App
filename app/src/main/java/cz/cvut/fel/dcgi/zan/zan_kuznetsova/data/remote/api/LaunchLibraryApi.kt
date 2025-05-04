@@ -1,4 +1,4 @@
-package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote
+package cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.api
 
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.dto.LaunchApiResponse
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.dto.LauncherConfigurationDto

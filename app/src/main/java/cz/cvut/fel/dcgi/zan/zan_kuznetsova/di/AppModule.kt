@@ -12,8 +12,10 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.LaunchLibraryApi
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.datasource.LaunchApiDataSource
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.api.LaunchLibraryApi
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.api.NewsLibraryApi
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source.LaunchApiDataSource
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source.NewsApiDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.NewsRepository
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
 import okhttp3.OkHttpClient
@@ -57,7 +59,10 @@ val appModule = module {
     }
 
     viewModel<NewsViewModel> {
-        NewsViewModel(repository = get())
+        NewsViewModel(
+            repository = get(),
+            remoteDataSource = get()
+        )
     }
 
     // Network
@@ -74,6 +79,7 @@ val appModule = module {
             .build()
     }
 
+    // Launch ///
     single {
         Retrofit.Builder()
             .baseUrl("https://ll.thespacedevs.com/2.2.0/")
@@ -89,6 +95,28 @@ val appModule = module {
     single {
         LaunchApiDataSource(get())
     }
+
+    ////////////
+
+    /// News ///
+    single {
+        Retrofit.Builder()
+            .baseUrl("https://api.spaceflightnewsapi.net/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .client(get())
+            .build()
+    }
+
+    single {
+        get<Retrofit>().create(NewsLibraryApi::class.java)
+    }
+
+    single {
+        NewsApiDataSource(get())
+    }
+
+    ////////////
+
 
     single { PreferencesManager(get()) }
 }

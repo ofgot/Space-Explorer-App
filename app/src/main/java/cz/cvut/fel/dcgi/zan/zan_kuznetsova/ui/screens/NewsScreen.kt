@@ -150,8 +150,8 @@ fun NewsItem(
             .height(130.dp)
     ) {
         AsyncImage(
-            model = news.image?.url,
-            contentDescription = news.image?.name,
+            model = news.image,
+            contentDescription = "news image",
             modifier = Modifier
                 .width(100.dp)
                 .height(130.dp)
