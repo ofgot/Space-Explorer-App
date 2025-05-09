@@ -25,7 +25,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 
-
 val appModule = module {
 
     // LaunchModule
@@ -80,7 +79,7 @@ val appModule = module {
     }
 
     // Launch ///
-    single {
+    single(named("launchRetrofit")) {
         Retrofit.Builder()
             .baseUrl("https://ll.thespacedevs.com/2.2.0/")
             .addConverterFactory(MoshiConverterFactory.create())
@@ -89,17 +88,17 @@ val appModule = module {
     }
 
     single {
-        get<Retrofit>().create(LaunchLibraryApi::class.java)
+        get<Retrofit>(named("launchRetrofit")).create(LaunchLibraryApi::class.java)
     }
 
-    single {
+    single<LaunchApiDataSource> {
         LaunchApiDataSource(get())
     }
 
     ////////////
 
     /// News ///
-    single {
+    single(named("newsRetrofit")) {
         Retrofit.Builder()
             .baseUrl("https://api.spaceflightnewsapi.net/")
             .addConverterFactory(MoshiConverterFactory.create())
@@ -108,10 +107,10 @@ val appModule = module {
     }
 
     single {
-        get<Retrofit>().create(NewsLibraryApi::class.java)
+        get<Retrofit>(named("newsRetrofit")).create(NewsLibraryApi::class.java)
     }
 
-    single {
+    single<NewsApiDataSource> {
         NewsApiDataSource(get())
     }
 

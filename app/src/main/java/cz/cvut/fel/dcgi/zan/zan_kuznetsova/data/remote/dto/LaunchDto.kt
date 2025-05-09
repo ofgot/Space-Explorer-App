@@ -57,17 +57,17 @@ data class RocketDto(
 data class RocketConfigDto(
     val url: String?,
     val name: String?,
-    @Json(name = "full_name") val fullName: String?,
+    val full_name: String?,
     val length: Double?,
     val diameter: Double?,
-    @Json(name = "max_stage") val maxStage: Int?,
-    @Json(name = "leo_capacity") val massToLEO: Double?,
-    @Json(name = "gto_capacity") val massToGTO: Double?,
-    @Json(name = "launch_mass") val liftoffMass: Double?,
-    @Json(name = "to_thrust") val liftoffThrust: Double?,
-    @Json(name = "wiki_url") val wikiUrl: String?,
-    @Json(name = "info_url") val infoUrl: String?,
-    @Json(name = "maiden_flight") val maidenFlight: String?,
-    @Json(name = "successful_launches") val successfulLaunches: Int?,
-    @Json(name = "failed_launches") val failedLaunches: Int?
+    val max_stage: Int?,
+    val leo_capacity: Double?,
+    val gto_capacity: Double?,
+    val launch_mass: Double?,
+    val to_thrust: Double?,
+    val wiki_url: String?,
+    val info_url: String?,
+    val maiden_flight: String?,
+    val successful_launches: Int?,
+    val failed_launches: Int?
 )

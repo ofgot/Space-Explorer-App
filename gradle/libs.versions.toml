@@ -5,6 +5,7 @@ coil = "3.1.0"
 
 #Koin
 converterGson = "2.9.0"
+datastorePreferences = "1.1.6"
 foundation = "1.8.0"
 koin = "4.0.3"
 
@@ -30,6 +31,7 @@ ksp = "2.1.10-1.0.31"
 swiperefreshlayout = "1.2.0-beta01"
 
 [libraries]
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigationCompose" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }

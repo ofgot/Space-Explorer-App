@@ -20,7 +20,10 @@ class LaunchApiDataSource(
             val config = dto.rocket?.configuration
 
             val rocketDetails = try {
-                config?.url?.let { api.getLauncherConfiguration(it) }
+                config?.url?.let { url ->
+                    api.getLauncherConfiguration(url)
+                }
+                Log.d("ROCKET_CONFIG_URL", config?.url ?: "null")
             } catch (e: Exception) {
                 Log.e("API_ERROR", "Failed to load rocket config: ${e.message}")
                 null
@@ -57,21 +60,21 @@ class LaunchApiDataSource(
                 },
 
                 rocket = Rocket(
-                    name = config?.fullName ?: config?.name ?: "",
+                    name = config?.full_name ?: config?.name ?: "",
                     rocketDetails = rocketDetails?.let {
                         RocketDetails(
-                            infoUrl = it.info_url ?: "",
-                            wikiUrl = it.wiki_url ?: "",
-                            height = it.length ?: 0.0,
-                            diameter = it.diameter ?: 0.0,
-                            maxStage = it.max_stage ?: 0,
-                            massToLEO = it.leo_capacity ?: 0.0,
-                            massToGTO = it.gto_capacity ?: 0.0,
-                            liftoffMass = it.launch_mass ?: 0.0,
-                            liftoffThrust = it.to_thrust ?: 0.0,
-                            successfulLaunches = it.successful_launches ?: 0,
-                            maidenFlight = it.maiden_flight ?: "",
-                            failedLaunches = it.failed_launches ?: 0
+                            infoUrl = config?.info_url ?: "",
+                            wikiUrl = config?.wiki_url ?: "",
+                            height = config?.length ?: 0.0,
+                            diameter = config?.diameter ?: 0.0,
+                            maxStage = config?.max_stage ?: 0,
+                            massToLEO = config?.leo_capacity ?: 0.0,
+                            massToGTO = config?.gto_capacity ?: 0.0,
+                            liftoffMass = config?.launch_mass ?: 0.0,
+                            liftoffThrust = config?.to_thrust ?: 0.0,
+                            successfulLaunches = config?.successful_launches ?: 0,
+                            maidenFlight = config?.maiden_flight ?: "",
+                            failedLaunches = config?.failed_launches ?: 0
                         )
                     }
                 ),

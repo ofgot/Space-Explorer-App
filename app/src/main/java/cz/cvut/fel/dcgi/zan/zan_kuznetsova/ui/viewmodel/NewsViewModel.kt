@@ -49,6 +49,7 @@ class NewsViewModel(
                 val newsItems = remoteDataSource.getNews().filterNot { it.id in existingIds }
 //            val newsItems = sampleNews.filterNot { it.id in existingIds }
                 repository.insertNews(newsItems)
+                Log.e("IMPORTANT", "GET data from api")
             } catch (e: Exception) {
                 Log.e("NewsDownload", "Failed to download news: ${e.message}")
             }
