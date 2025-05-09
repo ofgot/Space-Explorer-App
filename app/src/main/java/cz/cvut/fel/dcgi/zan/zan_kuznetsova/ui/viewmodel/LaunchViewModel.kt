@@ -46,10 +46,9 @@ class LaunchViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     fun refresh() {
-//        clearDatabase()
         viewModelScope.launch {
-            if (!preferences.shouldReload()) {
-                Log.i("REFRESH", "Too soon to reload.")
+            if (!preferences.shouldReload("launch")) {
+                Log.i("REFRESH", "Too soon to reload launches.")
                 return@launch
             }
 
@@ -57,7 +56,7 @@ class LaunchViewModel(
             try {
                 val launches = remoteDataSource.getLaunches()
                 repository.insertLaunches(launches)
-                preferences.saveReloadTime()
+                preferences.saveReloadTime("launch")
                 Log.i("IMPORTANT", "data was reload")
             } catch (e: Exception) {
                 Log.e("REFRESH", "API failed: ${e.message}")

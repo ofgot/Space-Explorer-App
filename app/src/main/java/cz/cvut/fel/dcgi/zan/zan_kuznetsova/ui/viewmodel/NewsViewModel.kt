@@ -3,6 +3,7 @@ package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.components.PreferencesManager
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.local.News
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source.NewsApiDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.temporary.sampleNews
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 class NewsViewModel(
     private val repository: NewsRepository,
     private val remoteDataSource: NewsApiDataSource,
+    private val preferences: PreferencesManager
 ) : ViewModel() {
 
     // State
@@ -44,12 +46,17 @@ class NewsViewModel(
 
     fun downloadNews() {
         viewModelScope.launch {
+            if (!preferences.shouldReload("news")) {
+                Log.e("NEWS_REFRESH", "Too soon to reload news.")
+                return@launch
+            }
+
             try {
                 val existingIds = repository.getAllNewsIds()
                 val newsItems = remoteDataSource.getNews().filterNot { it.id in existingIds }
-//            val newsItems = sampleNews.filterNot { it.id in existingIds }
                 repository.insertNews(newsItems)
-                Log.e("IMPORTANT", "GET data from api")
+                preferences.saveReloadTime("news")
+                Log.i("NEWS_REFRESH", "News reloaded from API.")
             } catch (e: Exception) {
                 Log.e("NewsDownload", "Failed to download news: ${e.message}")
             }

@@ -60,7 +60,8 @@ val appModule = module {
     viewModel<NewsViewModel> {
         NewsViewModel(
             repository = get(),
-            remoteDataSource = get()
+            remoteDataSource = get(),
+            preferences = get()
         )
     }
 
