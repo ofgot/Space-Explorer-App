@@ -1,5 +1,6 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,7 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
 import androidx.compose.ui.platform.LocalContext
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.SettingsViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
 
 
@@ -91,12 +93,24 @@ fun MainAppRouter(navController: NavHostController) {
 
 //                viewModel.clearDatabase()
                 LaunchedEffect(allLaunches) {
+
                     if (allLaunches.isEmpty()) {
                         viewModel.onEvent(
                             LaunchesEvent.OnDownloadRequested,
                             context
                         )
                     }
+//                    else {
+//                        allLaunches.forEach {
+//                            try {
+//                                scheduleLaunchAlarm(it, context)
+//                                Log.e("ALARM", "Alarm was set ${it.name}")
+//                            } catch (e: Exception) {
+//                                Log.e("ALARM", "Failed to schedule alarm for ${it.name}: ${e.message}")
+//                            }
+//                        }
+//
+//                    }
                 }
 
                 val route = currentBackStackEntry.value?.destination?.route.orEmpty()
@@ -183,10 +197,15 @@ fun MainAppRouter(navController: NavHostController) {
             }
         }
 
-        composable<Routes.Settings>() {
+        composable<Routes.Settings>{ backStackEntry ->
+            val viewModel = backStackEntry.sharedKoinNavViewModel<SettingsViewModel>(navController)
+            val notificationsEnabled by viewModel.notificationsEnabled.collectAsState()
+
             SettingsScreen(
                 mainBottomNavItem,
                 currentBackStackEntry.value?.destination?.route,
+                notificationsEnabled = notificationsEnabled,
+                onToggleNotifications = viewModel::toggleNotifications
             )
         }
 

@@ -18,6 +18,7 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source.LaunchApiDataSourc
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source.NewsApiDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.NewsRepository
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.SettingsViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
@@ -117,6 +118,11 @@ val appModule = module {
 
     ////////////
 
-
     single { PreferencesManager(get()) }
+
+
+    /// Settings ///
+    viewModel<SettingsViewModel> {
+        SettingsViewModel()
+    }
 }
