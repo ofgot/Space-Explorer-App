@@ -20,13 +20,16 @@ import androidx.compose.ui.unit.dp
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.BottomNavigation
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.components.SingleLineText
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation.BottomNavItem
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.theme.ZankuznetsovaTheme
 
 @Composable
 fun SettingsScreen(
     mainBottomNavigationItems: List<BottomNavItem>,
     currentDestination: String?,
     notificationsEnabled: Boolean,
-    onToggleNotifications: (Boolean) -> Unit
+    onToggleNotifications: (Boolean) -> Unit,
+
+
 ) {
     Scaffold(
         topBar = { SettingsAppBar() },
@@ -81,15 +84,3 @@ fun SettingsAppBar() {
         },
     )
 }
-
-@Preview(showBackground = true)
-@Composable
-fun SettingsScreenPreview() {
-    SettingsScreen(
-        mainBottomNavigationItems = emptyList(),
-        currentDestination = null,
-        notificationsEnabled = true,
-        onToggleNotifications = {}
-    )
-}
-

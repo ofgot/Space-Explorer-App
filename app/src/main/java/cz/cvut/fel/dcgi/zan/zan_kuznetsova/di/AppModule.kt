@@ -1,5 +1,6 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.di
 
+import SettingsViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.components.PreferencesManager
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.datasource.LaunchDBDataSourceImpl
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.db.LaunchDatabase
@@ -18,7 +19,6 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source.LaunchApiDataSourc
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.remote.source.NewsApiDataSource
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.repository.NewsRepository
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.SettingsViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
@@ -123,6 +123,6 @@ val appModule = module {
 
     /// Settings ///
     viewModel<SettingsViewModel> {
-        SettingsViewModel()
+        SettingsViewModel(preferencesManager = get())
     }
 }

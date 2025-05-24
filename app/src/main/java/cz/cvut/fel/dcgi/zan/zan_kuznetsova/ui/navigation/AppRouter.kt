@@ -1,10 +1,11 @@
 package cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.navigation
 
-import android.util.Log
+import SettingsViewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -23,7 +24,7 @@ import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.LaunchViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.NewsViewModel
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.NewsEvent
 import androidx.compose.ui.platform.LocalContext
-import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.SettingsViewModel
+import cz.cvut.fel.dcgi.zan.zan_kuznetsova.data.components.PreferencesManager
 import cz.cvut.fel.dcgi.zan.zan_kuznetsova.ui.viewmodel.events.LaunchesEvent
 
 
@@ -100,17 +101,6 @@ fun MainAppRouter(navController: NavHostController) {
                             context
                         )
                     }
-//                    else {
-//                        allLaunches.forEach {
-//                            try {
-//                                scheduleLaunchAlarm(it, context)
-//                                Log.e("ALARM", "Alarm was set ${it.name}")
-//                            } catch (e: Exception) {
-//                                Log.e("ALARM", "Failed to schedule alarm for ${it.name}: ${e.message}")
-//                            }
-//                        }
-//
-//                    }
                 }
 
                 val route = currentBackStackEntry.value?.destination?.route.orEmpty()
