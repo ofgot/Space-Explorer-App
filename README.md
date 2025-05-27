@@ -33,3 +33,9 @@ Customize your app preferences and appearance.
 
 - Dependency injection with Koin.
 
+# 🚀 Space Explorer App version A3-A5
+
+- Add loading news and launches from api
+
+- Use DataStore for reloading news
+
