@@ -1,4 +1,4 @@
-# 🚀 Space Explorer App version A1-A3
+# 🚀 Space Explorer App
 Space Explorer is a mobile application for discovering and managing space-related content.
 
 <table border="0">
