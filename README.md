@@ -33,7 +33,7 @@ Customize your app preferences and appearance.
 
 - Dependency injection with Koin.
 
-# 🚀 Space Explorer App version A3-A5
+# 🚀 Space Explorer App version A4-A5
 
 - Add loading news and launches from api
 
